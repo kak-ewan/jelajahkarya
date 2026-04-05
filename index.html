@@ -39,8 +39,8 @@
     <div id="heroSection" style="background:linear-gradient(135deg,#1e293b 0%,#334155 50%,#475569 100%)" class="px-6 py-12 text-center text-white relative overflow-hidden">
       <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%"></div>
       <div style="position:absolute;bottom:-60px;left:-30px;width:160px;height:160px;background:rgba(255,255,255,.03);border-radius:50%"></div>
-      <h1 id="heroTitle" class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 relative z-10">✨ Jejak Karyaku</h1>
-      <p id="heroSubtitle" class="text-slate-300 text-base md:text-lg font-light relative z-10">Galeri Portofolio Siswa</p>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 relative z-10">✨ Jejak Karyaku</h1>
+      <p class="text-slate-300 text-base md:text-lg font-light relative z-10">Galeri Portofolio Siswa</p>
       <button onclick="showView('viewLogin')" class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold relative z-10" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)">
         <i data-lucide="lock" style="width:16px;height:16px"></i> Panel Guru
       </button>
@@ -294,6 +294,10 @@ let works = [];
 let currentStudent = null;
 let currentAdminStudent = null;
 let deleteCallback = null;
+
+// Variabel untuk menyimpan file
+let pendingThumbnailFile = null;
+let pendingWorkFile = null;
 
 // =================== API HELPERS ===================
 async function apiCall(action, data = {}) {
@@ -672,17 +676,20 @@ function renderKaryaAdmin() {
 }
 
 function openKaryaModal(edit = null) {
+  // Reset file pending
+  pendingThumbnailFile = null;
+  pendingWorkFile = null;
+  
   document.getElementById('modalKaryaTitle').textContent = edit ? 'Edit Karya' : 'Tambah Karya';
   document.getElementById('karyaEditId').value = edit ? edit.id : '';
   document.getElementById('inputJudul').value = edit ? edit.judul : '';
   document.getElementById('inputDeskripsi').value = edit ? (edit.deskripsi || '') : '';
   
+  // Reset file inputs
   document.getElementById('inputThumbnailFile').value = '';
   document.getElementById('inputWorkFile').value = '';
   document.getElementById('inputThumbnail').value = edit ? (edit.thumbnail || '') : '';
   document.getElementById('inputLink').value = edit ? (edit.link || '') : '';
-  delete document.getElementById('inputThumbnail').dataset.file;
-  delete document.getElementById('inputLink').dataset.file;
   
   document.getElementById('thumbFileName').textContent = edit && edit.thumbnail ? '✓ Sudah ada file' : 'Pilih atau drag gambar';
   document.getElementById('workFileName').textContent = edit && edit.link ? '✓ Sudah ada file' : 'Pilih atau drag file';
@@ -691,6 +698,8 @@ function openKaryaModal(edit = null) {
 
 function closeKaryaModal() {
   document.getElementById('modalKarya').classList.add('hidden');
+  pendingThumbnailFile = null;
+  pendingWorkFile = null;
 }
 
 function editKarya(id) {
@@ -724,38 +733,37 @@ function handleThumbnailFile(input) {
     input.value = '';
     return;
   }
+  pendingThumbnailFile = file;
   document.getElementById('thumbFileName').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
-  document.getElementById('inputThumbnail').dataset.file = file;
 }
 
 function handleWorkFile(input) {
   const file = input.files[0];
   if (!file) return;
+  pendingWorkFile = file;
   document.getElementById('workFileName').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
-  document.getElementById('inputLink').dataset.file = file;
 }
 
-// Ganti fungsi uploadToGDrive dengan ini
-async function uploadToGDrive(file, type) {
+async function uploadToGDrive(file) {
   if (!file) return null;
   try {
     // Convert file to base64
-    const base64 = await new Promise((resolve) => {
+    const base64 = await new Promise((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onload = () => {
         const base64String = reader.result.split(',')[1];
         resolve(base64String);
       };
+      reader.onerror = reject;
       reader.readAsDataURL(file);
     });
     
-    // Send as JSON instead of FormData
+    // Send as JSON
     const payload = JSON.stringify({
       action: 'uploadFile',
       file: base64,
       fileName: file.name,
-      mimeType: file.type,
-      type: type
+      mimeType: file.type
     });
     
     const resp = await fetch(API, {
@@ -777,7 +785,7 @@ async function uploadToGDrive(file, type) {
     return null;
   }
 }
-  
+
 async function saveKarya() {
   const id = document.getElementById('karyaEditId').value;
   const judul = document.getElementById('inputJudul').value.trim();
@@ -795,10 +803,10 @@ async function saveKarya() {
   let thumbnail = document.getElementById('inputThumbnail').value;
   let link = document.getElementById('inputLink').value;
 
-  const thumbFile = document.getElementById('inputThumbnail').dataset.file;
-  if (thumbFile) {
+  // Upload thumbnail if new file selected
+  if (pendingThumbnailFile) {
     showToast('Mengunggah thumbnail...');
-    thumbnail = await uploadToGDrive(thumbFile, 'thumbnail');
+    thumbnail = await uploadToGDrive(pendingThumbnailFile);
     if (!thumbnail) {
       btn.innerHTML = 'Simpan';
       btn.disabled = false;
@@ -806,10 +814,10 @@ async function saveKarya() {
     }
   }
 
-  const workFile = document.getElementById('inputLink').dataset.file;
-  if (workFile) {
+  // Upload work file if new file selected
+  if (pendingWorkFile) {
     showToast('Mengunggah file karya...');
-    link = await uploadToGDrive(workFile, 'work');
+    link = await uploadToGDrive(pendingWorkFile);
     if (!link) {
       btn.innerHTML = 'Simpan';
       btn.disabled = false;
