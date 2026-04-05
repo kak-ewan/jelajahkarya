@@ -735,17 +735,33 @@ function handleWorkFile(input) {
   document.getElementById('inputLink').dataset.file = file;
 }
 
+// Ganti fungsi uploadToGDrive dengan ini
 async function uploadToGDrive(file, type) {
   if (!file) return null;
   try {
-    const formData = new FormData();
-    formData.append('action', 'uploadFile');
-    formData.append('file', file);
-    formData.append('type', type);
+    // Convert file to base64
+    const base64 = await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result.split(',')[1];
+        resolve(base64String);
+      };
+      reader.readAsDataURL(file);
+    });
+    
+    // Send as JSON instead of FormData
+    const payload = JSON.stringify({
+      action: 'uploadFile',
+      file: base64,
+      fileName: file.name,
+      mimeType: file.type,
+      type: type
+    });
     
     const resp = await fetch(API, {
       method: 'POST',
-      body: formData
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: payload
     });
     
     const result = await resp.json();
