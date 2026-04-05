@@ -1,218 +1,292 @@
 <!doctype html>
 <html lang="id" class="h-full">
- <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jejak Karyaku</title>
+  <title>Jejak Karyaku - Galeri Portofolio Siswa</title>
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <script src="/_sdk/element_sdk.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-*{font-family:'Plus Jakarta Sans',sans-serif;box-sizing:border-box}
-html,body{height:100%;margin:0;overflow:hidden}
-.app-root{height:100%;width:100%;overflow-y:auto;overflow-x:hidden}
-.toast{position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;color:#fff;font-weight:600;font-size:14px;opacity:0;transform:translateY(-10px);transition:all .3s ease;pointer-events:none}
-.toast.show{opacity:1;transform:translateY(0)}
-.toast.success{background:#10b981}
-.toast.error{background:#ef4444}
-.card-hover{transition:all .3s cubic-bezier(.4,0,.2,1)}
-.card-hover:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
-.fade-in{animation:fadeIn .4s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.spinner{width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
-@keyframes spin{to{transform:rotate(360deg)}}
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-.sidebar-link{transition:all .2s}
-.sidebar-link:hover,.sidebar-link.active{background:rgba(255,255,255,.12)}
-input:focus,select:focus,textarea:focus{outline:none;ring:2px;box-shadow:0 0 0 3px rgba(99,102,241,.25)}
-.thumb-img{width:100%;height:160px;object-fit:cover;border-radius:8px 8px 0 0;background:#e2e8f0}
-.student-photo{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:#e2e8f0}
-</style>
-  <style>body { box-sizing: border-box; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body class="h-full">
-  <div class="app-root" id="app" style="background:#f0f2f5"><!-- Toast -->
-   <div id="toast" class="toast"></div><!-- =================== GALERI VIEW =================== -->
-   <div id="viewGallery" class="min-h-full"><!-- Hero -->
+    *{font-family:'Plus Jakarta Sans',sans-serif;box-sizing:border-box}
+    html,body{height:100%;margin:0;overflow:hidden}
+    .app-root{height:100%;width:100%;overflow-y:auto;overflow-x:hidden}
+    .toast{position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;color:#fff;font-weight:600;font-size:14px;opacity:0;transform:translateY(-10px);transition:all .3s ease;pointer-events:none}
+    .toast.show{opacity:1;transform:translateY(0)}
+    .toast.success{background:#10b981}
+    .toast.error{background:#ef4444}
+    .card-hover{transition:all .3s cubic-bezier(.4,0,.2,1)}
+    .card-hover:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
+    .fade-in{animation:fadeIn .4s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .spinner{width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
+    .sidebar-link{transition:all .2s}
+    .sidebar-link:hover,.sidebar-link.active{background:rgba(255,255,255,.12)}
+    input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 3px rgba(99,102,241,.25)}
+    .thumb-img{width:100%;height:160px;object-fit:cover;border-radius:8px 8px 0 0;background:#e2e8f0}
+    .student-photo{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:#e2e8f0}
+    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  </style>
+</head>
+<body class="h-full">
+<div class="app-root" id="app" style="background:#f0f2f5">
+  <div id="toast" class="toast"></div>
+
+  <!-- GALERI VIEW -->
+  <div id="viewGallery" class="min-h-full">
     <div id="heroSection" style="background:linear-gradient(135deg,#1e293b 0%,#334155 50%,#475569 100%)" class="px-6 py-12 text-center text-white relative overflow-hidden">
-     <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%"></div>
-     <div style="position:absolute;bottom:-60px;left:-30px;width:160px;height:160px;background:rgba(255,255,255,.03);border-radius:50%"></div>
-     <h1 id="heroTitle" class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 relative z-10">✨ Jejak Karyaku</h1>
-     <p id="heroSubtitle" class="text-slate-300 text-base md:text-lg font-light relative z-10">Galeri Portofolio Siswa</p><button onclick="showView('viewLogin')" class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold relative z-10" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)"> <i data-lucide="lock" style="width:16px;height:16px"></i> Panel Guru </button>
-    </div><!-- Student Select -->
+      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%"></div>
+      <div style="position:absolute;bottom:-60px;left:-30px;width:160px;height:160px;background:rgba(255,255,255,.03);border-radius:50%"></div>
+      <h1 id="heroTitle" class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 relative z-10">✨ Jejak Karyaku</h1>
+      <p id="heroSubtitle" class="text-slate-300 text-base md:text-lg font-light relative z-10">Galeri Portofolio Siswa</p>
+      <button onclick="showView('viewLogin')" class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold relative z-10" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)">
+        <i data-lucide="lock" style="width:16px;height:16px"></i> Panel Guru
+      </button>
+    </div>
+
     <div class="max-w-5xl mx-auto px-4 py-8">
-     <div id="studentCardsArea" class="mb-8">
-      <h2 class="text-lg font-bold text-slate-700 mb-4">Pilih Siswa</h2>
-      <div id="studentCards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
-      <div id="studentCardsLoading" class="text-center py-10 text-slate-400">
-       <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-       <p class="mt-3 text-sm">Memuat data siswa...</p>
-      </div>
-     </div><!-- Password gate -->
-     <div id="passwordGate" class="hidden max-w-sm mx-auto bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center fade-in"><img id="selectedStudentPhoto" class="w-20 h-20 rounded-full object-cover mx-auto mb-3 bg-slate-200" src="" alt="">
-      <h3 id="selectedStudentName" class="font-bold text-slate-800 text-lg mb-4"></h3>
-      <div class="relative mb-4"><input type="password" id="studentPassword" placeholder="Masukkan password" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" onkeydown="if(event.key==='Enter')unlockGallery()">
-      </div><button onclick="unlockGallery()" id="btnUnlock" class="w-full py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Buka Galeri</button>
-      <p id="pwdError" class="text-red-500 text-xs mt-2 hidden">Password salah</p><button onclick="backToStudents()" class="mt-3 text-sm text-slate-400 hover:text-slate-600">← Kembali</button>
-     </div><!-- Student Works Gallery -->
-     <div id="worksGallery" class="hidden fade-in">
-      <div class="flex items-center justify-between mb-6">
-       <div class="flex items-center gap-3"><img id="galleryStudentPhoto" class="w-10 h-10 rounded-full object-cover bg-slate-200" src="" alt="">
-        <div>
-         <h3 id="galleryStudentName" class="font-bold text-slate-800"></h3>
-         <p class="text-xs text-slate-400">Koleksi Karya</p>
+      <div id="studentCardsArea" class="mb-8">
+        <h2 class="text-lg font-bold text-slate-700 mb-4">Pilih Siswa</h2>
+        <div id="studentCards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+        <div id="studentCardsLoading" class="text-center py-10 text-slate-400">
+          <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
+          <p class="mt-3 text-sm">Memuat data siswa...</p>
         </div>
-       </div><button onclick="backToStudents()" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1"><i data-lucide="arrow-left" style="width:14px;height:14px"></i> Kembali</button>
       </div>
-      <div id="worksList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
-      <div id="worksEmpty" class="hidden text-center py-16 text-slate-400"><i data-lucide="image" style="width:48px;height:48px;margin:0 auto 12px;opacity:.4"></i>
-       <p class="font-medium">Belum ada karya</p>
+
+      <div id="passwordGate" class="hidden max-w-sm mx-auto bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center fade-in">
+        <img id="selectedStudentPhoto" class="w-20 h-20 rounded-full object-cover mx-auto mb-3 bg-slate-200" src="" alt="">
+        <h3 id="selectedStudentName" class="font-bold text-slate-800 text-lg mb-4"></h3>
+        <div class="relative mb-4">
+          <input type="password" id="studentPassword" placeholder="Masukkan password" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" onkeydown="if(event.key==='Enter')unlockGallery()">
+        </div>
+        <button onclick="unlockGallery()" id="btnUnlock" class="w-full py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Buka Galeri</button>
+        <p id="pwdError" class="text-red-500 text-xs mt-2 hidden">Password salah</p>
+        <button onclick="backToStudents()" class="mt-3 text-sm text-slate-400 hover:text-slate-600">← Kembali</button>
       </div>
-     </div>
+
+      <div id="worksGallery" class="hidden fade-in">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <img id="galleryStudentPhoto" class="w-10 h-10 rounded-full object-cover bg-slate-200" src="" alt="">
+            <div>
+              <h3 id="galleryStudentName" class="font-bold text-slate-800"></h3>
+              <p class="text-xs text-slate-400">Koleksi Karya</p>
+            </div>
+          </div>
+          <button onclick="backToStudents()" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1">
+            <i data-lucide="arrow-left" style="width:14px;height:14px"></i> Kembali
+          </button>
+        </div>
+        <div id="worksList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
+        <div id="worksEmpty" class="hidden text-center py-16 text-slate-400">
+          <i data-lucide="image" style="width:48px;height:48px;margin:0 auto 12px;opacity:.4"></i>
+          <p class="font-medium">Belum ada karya</p>
+        </div>
+      </div>
     </div>
-   </div><!-- =================== LOGIN VIEW =================== -->
-   <div id="viewLogin" class="hidden min-h-full flex items-center justify-center p-6" style="background:linear-gradient(135deg,#1e293b,#334155)">
-    <div class="bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl fade-in">
-     <div class="text-center mb-6">
-      <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3" style="background:#f1f5f9">
-       <i data-lucide="shield-check" style="width:28px;height:28px;color:#1e293b"></i>
-      </div>
-      <h2 class="text-xl font-bold text-slate-800">Panel Guru</h2>
-      <p class="text-sm text-slate-400">Masuk untuk mengelola data</p>
-     </div>
-     <div class="space-y-4">
-      <div><label class="text-xs font-semibold text-slate-500 mb-1 block">Username</label> <input id="loginUser" type="text" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Username">
-      </div>
-      <div><label class="text-xs font-semibold text-slate-500 mb-1 block">Password</label> <input id="loginPass" type="password" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
-      </div>
-      <p id="loginError" class="text-red-500 text-xs hidden">Username atau password salah</p><button onclick="doLogin()" id="btnLogin" class="w-full py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Masuk</button>
-     </div><button onclick="showView('viewGallery')" class="mt-4 text-sm text-slate-400 hover:text-slate-600 w-full text-center">← Kembali ke Galeri</button>
-    </div>
-   </div><!-- =================== ADMIN PANEL =================== -->
-   <div id="viewAdmin" class="hidden min-h-full flex" style="background:#f0f2f5"><!-- Sidebar -->
-    <aside class="w-60 shrink-0 text-white flex flex-col" style="background:#1e293b;min-height:100%">
-     <div class="p-5 border-b border-white/10">
-      <h2 class="font-extrabold text-lg tracking-tight">📋 Panel Guru</h2>
-      <p class="text-xs text-slate-400 mt-1" id="adminUserLabel">admin</p>
-     </div>
-     <nav class="flex-1 p-3 space-y-1"><button onclick="adminTab('siswa')" id="tabSiswa" class="sidebar-link active w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2"><i data-lucide="users" style="width:16px;height:16px"></i> Data Siswa</button> <button onclick="adminTab('galeri')" id="tabGaleri" class="sidebar-link w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2"><i data-lucide="image" style="width:16px;height:16px"></i> Galeri Karya</button>
-     </nav>
-     <div class="p-3 border-t border-white/10"><button onclick="doLogout()" class="w-full px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-white/10 transition"><i data-lucide="log-out" style="width:16px;height:16px"></i> Keluar</button>
-     </div>
-    </aside><!-- Main Content -->
-    <div class="flex-1 overflow-y-auto p-6"><!-- Tab Siswa -->
-     <div id="panelSiswa" class="fade-in">
-      <div class="flex items-center justify-between mb-6">
-       <h2 class="text-xl font-bold text-slate-800">Data Siswa</h2><button onclick="openSiswaModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold" style="background:#1e293b"><i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Siswa</button>
-      </div>
-      <div id="siswaTableWrap" class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-       <table class="w-full text-sm">
-        <thead>
-         <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
-          <th class="px-5 py-3 text-left">Foto</th>
-          <th class="px-5 py-3 text-left">Nama</th>
-          <th class="px-5 py-3 text-left">Password</th>
-          <th class="px-5 py-3 text-right">Aksi</th>
-         </tr>
-        </thead>
-        <tbody id="siswaTableBody"></tbody>
-       </table>
-       <div id="siswaLoading" class="text-center py-10 text-slate-400">
-        <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-       </div>
-      </div>
-     </div><!-- Tab Galeri -->
-     <div id="panelGaleri" class="hidden fade-in">
-      <h2 class="text-xl font-bold text-slate-800 mb-6">Galeri Karya Siswa</h2>
-      <div id="galeriCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
-      <div id="galeriLoading" class="text-center py-10 text-slate-400">
-       <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-      </div>
-     </div>
-    </div>
-   </div><!-- =================== ADMIN: Karya Detail View =================== -->
-   <div id="viewKarya" class="hidden min-h-full" style="background:#f0f2f5">
-    <div class="max-w-5xl mx-auto px-4 py-6"><button onclick="showView('viewAdmin');adminTab('galeri')" class="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 mb-4"><i data-lucide="arrow-left" style="width:14px;height:14px"></i> Kembali ke Galeri</button>
-     <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center gap-3"><img id="karyaStudentPhoto" class="w-12 h-12 rounded-full object-cover bg-slate-200" src="" alt="">
-       <div>
-        <h2 id="karyaStudentName" class="text-xl font-bold text-slate-800"></h2>
-        <p class="text-xs text-slate-400">Kelola Karya</p>
-       </div>
-      </div><button onclick="openKaryaModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold" style="background:#1e293b"><i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Karya</button>
-     </div>
-     <div id="karyaList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
-     <div id="karyaEmpty" class="hidden text-center py-16 text-slate-400"><i data-lucide="file-text" style="width:48px;height:48px;margin:0 auto 12px;opacity:.4"></i>
-      <p class="font-medium">Belum ada karya</p>
-     </div>
-     <div id="karyaLoading" class="text-center py-10 text-slate-400">
-      <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-     </div>
-    </div>
-   </div><!-- =================== MODALS =================== --> <!-- Siswa Modal -->
-   <div id="modalSiswa" class="modal-overlay hidden">
-    <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 fade-in">
-     <h3 id="modalSiswaTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Siswa</h3>
-     <form onsubmit="return false" class="space-y-4"><input type="hidden" id="siswaEditId" value="">
-      <div>
-       <label class="text-xs font-semibold text-slate-500 mb-1 block">Nama Siswa</label><input id="inputNama" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Nama lengkap">
-      </div>
-      <div>
-       <label class="text-xs font-semibold text-slate-500 mb-1 block">Password</label><input id="inputPassword" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Password siswa">
-      </div>
-      <div>
-       <label class="text-xs font-semibold text-slate-500 mb-1 block">URL Foto</label><input id="inputFoto" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="https://drive.google.com/...">
-      </div>
-      <div class="flex gap-3 pt-2"><button onclick="closeSiswaModal()" type="button" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button> <button onclick="saveSiswa()" type="button" id="btnSaveSiswa" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Simpan</button>
-      </div>
-     </form>
-    </div>
-   </div><!-- Karya Modal -->
-   <div id="modalKarya" class="modal-overlay hidden">
-    <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 fade-in">
-     <h3 id="modalKaryaTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Karya</h3>
-     <form onsubmit="return false" class="space-y-4"><input type="hidden" id="karyaEditId" value="">
-      <div>
-       <label class="text-xs font-semibold text-slate-500 mb-1 block">Judul Karya</label><input id="inputJudul" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Judul karya">
-      </div>
-      <div>
-       <label class="text-xs font-semibold text-slate-500 mb-1 block">Deskripsi</label><textarea id="inputDeskripsi" rows="2" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Deskripsi singkat"></textarea>
-      </div>
-      <div>
-       <label class="text-xs font-semibold text-slate-500 mb-1 block">Thumbnail (Gambar)</label>
-       <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 transition" onclick="document.getElementById('inputThumbnailFile').click()">
-        <i data-lucide="image" style="width:24px;height:24px;color:#94a3b8;margin:0 auto 6px"></i>
-        <p class="text-xs text-slate-500 font-medium" id="thumbFileName">Pilih atau drag gambar</p>
-       </div><input type="file" id="inputThumbnailFile" accept="image/*" class="hidden" onchange="handleThumbnailFile(this)"> <input type="hidden" id="inputThumbnail" value="">
-      </div>
-      <div>
-       <label class="text-xs font-semibold text-slate-500 mb-1 block">File Karya (PDF, Doc, Gambar, dll)</label>
-       <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 transition" onclick="document.getElementById('inputWorkFile').click()">
-        <i data-lucide="file" style="width:24px;height:24px;color:#94a3b8;margin:0 auto 6px"></i>
-        <p class="text-xs text-slate-500 font-medium" id="workFileName">Pilih atau drag file</p>
-       </div><input type="file" id="inputWorkFile" class="hidden" onchange="handleWorkFile(this)"> <input type="hidden" id="inputLink" value="">
-      </div>
-      <div class="flex gap-3 pt-2"><button onclick="closeKaryaModal()" type="button" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button> <button onclick="saveKarya()" type="button" id="btnSaveKarya" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Simpan</button>
-      </div>
-     </form>
-    </div>
-   </div><!-- Delete Confirm Modal -->
-   <div id="modalDelete" class="modal-overlay hidden">
-    <div class="bg-white rounded-2xl w-full max-w-sm mx-4 p-6 text-center fade-in">
-     <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#fef2f2">
-      <i data-lucide="trash-2" style="width:24px;height:24px;color:#ef4444"></i>
-     </div>
-     <h3 class="text-lg font-bold text-slate-800 mb-2">Hapus Data?</h3>
-     <p id="deleteMsg" class="text-sm text-slate-500 mb-5">Data akan dihapus permanen.</p>
-     <div class="flex gap-3"><button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button> <button onclick="confirmDelete()" id="btnConfirmDelete" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm bg-red-500">Hapus</button>
-     </div>
-    </div>
-   </div>
   </div>
-  <script>
-// =================== CONFIG ===================
+
+  <!-- LOGIN VIEW -->
+  <div id="viewLogin" class="hidden min-h-full flex items-center justify-center p-6" style="background:linear-gradient(135deg,#1e293b,#334155)">
+    <div class="bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl fade-in">
+      <div class="text-center mb-6">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3" style="background:#f1f5f9">
+          <i data-lucide="shield-check" style="width:28px;height:28px;color:#1e293b"></i>
+        </div>
+        <h2 class="text-xl font-bold text-slate-800">Panel Guru</h2>
+        <p class="text-sm text-slate-400">Masuk untuk mengelola data</p>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">Username</label>
+          <input id="loginUser" type="text" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Username">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">Password</label>
+          <input id="loginPass" type="password" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
+        </div>
+        <p id="loginError" class="text-red-500 text-xs hidden">Username atau password salah</p>
+        <button onclick="doLogin()" id="btnLogin" class="w-full py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Masuk</button>
+      </div>
+      <button onclick="showView('viewGallery')" class="mt-4 text-sm text-slate-400 hover:text-slate-600 w-full text-center">← Kembali ke Galeri</button>
+    </div>
+  </div>
+
+  <!-- ADMIN PANEL -->
+  <div id="viewAdmin" class="hidden min-h-full flex" style="background:#f0f2f5">
+    <aside class="w-60 shrink-0 text-white flex flex-col" style="background:#1e293b;min-height:100%">
+      <div class="p-5 border-b border-white/10">
+        <h2 class="font-extrabold text-lg tracking-tight">📋 Panel Guru</h2>
+        <p class="text-xs text-slate-400 mt-1" id="adminUserLabel">admin</p>
+      </div>
+      <nav class="flex-1 p-3 space-y-1">
+        <button onclick="adminTab('siswa')" id="tabSiswa" class="sidebar-link active w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2">
+          <i data-lucide="users" style="width:16px;height:16px"></i> Data Siswa
+        </button>
+        <button onclick="adminTab('galeri')" id="tabGaleri" class="sidebar-link w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2">
+          <i data-lucide="image" style="width:16px;height:16px"></i> Galeri Karya
+        </button>
+      </nav>
+      <div class="p-3 border-t border-white/10">
+        <button onclick="doLogout()" class="w-full px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-white/10 transition">
+          <i data-lucide="log-out" style="width:16px;height:16px"></i> Keluar
+        </button>
+      </div>
+    </aside>
+
+    <div class="flex-1 overflow-y-auto p-6">
+      <div id="panelSiswa" class="fade-in">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-bold text-slate-800">Data Siswa</h2>
+          <button onclick="openSiswaModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold" style="background:#1e293b">
+            <i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Siswa
+          </button>
+        </div>
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
+                <th class="px-5 py-3 text-left">Foto</th>
+                <th class="px-5 py-3 text-left">Nama</th>
+                <th class="px-5 py-3 text-left">Password</th>
+                <th class="px-5 py-3 text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="siswaTableBody"></tbody>
+          </table>
+          <div id="siswaLoading" class="text-center py-10 text-slate-400">
+            <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
+          </div>
+        </div>
+      </div>
+
+      <div id="panelGaleri" class="hidden fade-in">
+        <h2 class="text-xl font-bold text-slate-800 mb-6">Galeri Karya Siswa</h2>
+        <div id="galeriCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
+        <div id="galeriLoading" class="text-center py-10 text-slate-400">
+          <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KARYA DETAIL VIEW -->
+  <div id="viewKarya" class="hidden min-h-full" style="background:#f0f2f5">
+    <div class="max-w-5xl mx-auto px-4 py-6">
+      <button onclick="showView('viewAdmin');adminTab('galeri')" class="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 mb-4">
+        <i data-lucide="arrow-left" style="width:14px;height:14px"></i> Kembali ke Galeri
+      </button>
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <img id="karyaStudentPhoto" class="w-12 h-12 rounded-full object-cover bg-slate-200" src="" alt="">
+          <div>
+            <h2 id="karyaStudentName" class="text-xl font-bold text-slate-800"></h2>
+            <p class="text-xs text-slate-400">Kelola Karya</p>
+          </div>
+        </div>
+        <button onclick="openKaryaModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold" style="background:#1e293b">
+          <i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Karya
+        </button>
+      </div>
+      <div id="karyaList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
+      <div id="karyaEmpty" class="hidden text-center py-16 text-slate-400">
+        <i data-lucide="file-text" style="width:48px;height:48px;margin:0 auto 12px;opacity:.4"></i>
+        <p class="font-medium">Belum ada karya</p>
+      </div>
+      <div id="karyaLoading" class="text-center py-10 text-slate-400">
+        <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SISWA -->
+  <div id="modalSiswa" class="modal-overlay hidden">
+    <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 fade-in">
+      <h3 id="modalSiswaTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Siswa</h3>
+      <form onsubmit="return false" class="space-y-4">
+        <input type="hidden" id="siswaEditId" value="">
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">Nama Siswa</label>
+          <input id="inputNama" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Nama lengkap">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">Password</label>
+          <input id="inputPassword" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Password siswa">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">URL Foto</label>
+          <input id="inputFoto" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="https://drive.google.com/...">
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button onclick="closeSiswaModal()" type="button" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button>
+          <button onclick="saveSiswa()" type="button" id="btnSaveSiswa" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL KARYA -->
+  <div id="modalKarya" class="modal-overlay hidden">
+    <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 fade-in">
+      <h3 id="modalKaryaTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Karya</h3>
+      <form onsubmit="return false" class="space-y-4">
+        <input type="hidden" id="karyaEditId" value="">
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">Judul Karya</label>
+          <input id="inputJudul" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Judul karya">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">Deskripsi</label>
+          <textarea id="inputDeskripsi" rows="2" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Deskripsi singkat"></textarea>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">Thumbnail (Gambar)</label>
+          <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 transition" onclick="document.getElementById('inputThumbnailFile').click()">
+            <i data-lucide="image" style="width:24px;height:24px;color:#94a3b8;margin:0 auto 6px"></i>
+            <p class="text-xs text-slate-500 font-medium" id="thumbFileName">Pilih atau drag gambar</p>
+          </div>
+          <input type="file" id="inputThumbnailFile" accept="image/*" class="hidden" onchange="handleThumbnailFile(this)">
+          <input type="hidden" id="inputThumbnail" value="">
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-slate-500 mb-1 block">File Karya (PDF, Word, Gambar, dll)</label>
+          <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 transition" onclick="document.getElementById('inputWorkFile').click()">
+            <i data-lucide="file" style="width:24px;height:24px;color:#94a3b8;margin:0 auto 6px"></i>
+            <p class="text-xs text-slate-500 font-medium" id="workFileName">Pilih atau drag file</p>
+          </div>
+          <input type="file" id="inputWorkFile" class="hidden" onchange="handleWorkFile(this)">
+          <input type="hidden" id="inputLink" value="">
+        </div>
+        <div class="flex gap-3 pt-2">
+          <button onclick="closeKaryaModal()" type="button" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button>
+          <button onclick="saveKarya()" type="button" id="btnSaveKarya" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL DELETE -->
+  <div id="modalDelete" class="modal-overlay hidden">
+    <div class="bg-white rounded-2xl w-full max-w-sm mx-4 p-6 text-center fade-in">
+      <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#fef2f2">
+        <i data-lucide="trash-2" style="width:24px;height:24px;color:#ef4444"></i>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 mb-2">Hapus Data?</h3>
+      <p id="deleteMsg" class="text-sm text-slate-500 mb-5">Data akan dihapus permanen.</p>
+      <div class="flex gap-3">
+        <button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button>
+        <button onclick="confirmDelete()" id="btnConfirmDelete" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm bg-red-500">Hapus</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// =================== KONFIGURASI ===================
+// GANTI DENGAN URL DEPLOYMENT APPS SCRIPT ANDA
 const API = 'https://script.google.com/macros/s/AKfycbwy7wWHoI36e7jtGM-mg7Y6qF-A_2ugmz75IS2Gie-jkwLdf-6XFooagV9OFalHT_90/exec';
 
 let students = [];
@@ -220,66 +294,6 @@ let works = [];
 let currentStudent = null;
 let currentAdminStudent = null;
 let deleteCallback = null;
-let isLoggedIn = false;
-
-// =================== DEFAULT CONFIG ===================
-const defaultConfig = {
-  app_title: 'Jejak Karyaku',
-  gallery_subtitle: 'Galeri Portofolio Siswa',
-  bg_color: '#f0f2f5',
-  primary_color: '#1e293b',
-  card_color: '#ffffff',
-  text_color: '#1e293b',
-  accent_color: '#6366f1',
-  font_family: 'Plus Jakarta Sans'
-};
-
-// =================== ELEMENT SDK ===================
-window.elementSdk.init({
-  defaultConfig,
-  onConfigChange: async (config) => {
-    const c = { ...defaultConfig, ...config };
-    document.getElementById('app').style.background = c.bg_color;
-    const hero = document.getElementById('heroSection');
-    hero.style.background = `linear-gradient(135deg, ${c.primary_color} 0%, ${adjustColor(c.primary_color, 30)} 50%, ${adjustColor(c.primary_color, 60)} 100%)`;
-    document.getElementById('heroTitle').textContent = '✨ ' + c.app_title;
-    document.getElementById('heroSubtitle').textContent = c.gallery_subtitle;
-    const ff = c.font_family + ', sans-serif';
-    document.body.style.fontFamily = ff;
-    document.querySelectorAll('h1,h2,h3,p,span,button,input,select,textarea,label,th,td,a').forEach(el => el.style.fontFamily = ff);
-  },
-  mapToCapabilities: (config) => {
-    const c = { ...defaultConfig, ...config };
-    const mkColor = (key) => ({
-      get: () => c[key] || defaultConfig[key],
-      set: (v) => { c[key] = v; window.elementSdk.setConfig({ [key]: v }); }
-    });
-    return {
-      recolorables: [mkColor('bg_color'), mkColor('primary_color'), mkColor('card_color'), mkColor('text_color'), mkColor('accent_color')],
-      borderables: [],
-      fontEditable: {
-        get: () => c.font_family || defaultConfig.font_family,
-        set: (v) => { c.font_family = v; window.elementSdk.setConfig({ font_family: v }); }
-      },
-      fontSizeable: undefined
-    };
-  },
-  mapToEditPanelValues: (config) => {
-    const c = { ...defaultConfig, ...config };
-    return new Map([
-      ['app_title', c.app_title],
-      ['gallery_subtitle', c.gallery_subtitle]
-    ]);
-  }
-});
-
-function adjustColor(hex, amount) {
-  hex = hex.replace('#', '');
-  let r = Math.min(255, parseInt(hex.substr(0,2),16) + amount);
-  let g = Math.min(255, parseInt(hex.substr(2,2),16) + amount);
-  let b = Math.min(255, parseInt(hex.substr(4,2),16) + amount);
-  return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b.toString(16).padStart(2,'0')}`;
-}
 
 // =================== API HELPERS ===================
 async function apiCall(action, data = {}) {
@@ -288,12 +302,14 @@ async function apiCall(action, data = {}) {
     const resp = await fetch(API, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: payload,
-      redirect: 'follow'
+      body: payload
     });
     const text = await resp.text();
-    try { return JSON.parse(text); }
-    catch { return { success: false, error: 'Invalid response: ' + text.substring(0, 200) }; }
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { success: false, error: 'Invalid response: ' + text.substring(0, 200) };
+    }
   } catch (e) {
     return { success: false, error: e.message };
   }
@@ -302,10 +318,13 @@ async function apiCall(action, data = {}) {
 async function apiGet(action, params = '') {
   try {
     const url = API + '?action=' + action + (params ? '&' + params : '');
-    const resp = await fetch(url, { redirect: 'follow' });
+    const resp = await fetch(url);
     const text = await resp.text();
-    try { return JSON.parse(text); }
-    catch { return { success: false, error: 'Invalid response: ' + text.substring(0, 200) }; }
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { success: false, error: 'Invalid response: ' + text.substring(0, 200) };
+    }
   } catch (e) {
     return { success: false, error: e.message };
   }
@@ -321,11 +340,13 @@ function showToast(msg, type = 'success') {
 
 // =================== VIEW MANAGEMENT ===================
 function showView(id) {
-  ['viewGallery','viewLogin','viewAdmin','viewKarya'].forEach(v => {
+  const views = ['viewGallery', 'viewLogin', 'viewAdmin', 'viewKarya'];
+  views.forEach(v => {
     document.getElementById(v).classList.toggle('hidden', v !== id);
   });
   if (id === 'viewGallery') loadStudents();
-  if (id === 'viewAdmin') { loadStudentsAdmin(); }
+  if (id === 'viewAdmin') loadStudentsAdmin();
+  lucide.createIcons();
 }
 
 // =================== GALLERY (PUBLIC) ===================
@@ -350,9 +371,9 @@ function renderStudentCards() {
   const container = document.getElementById('studentCards');
   container.innerHTML = students.map(s => `
     <div class="card-hover bg-white rounded-2xl overflow-hidden border border-slate-100 cursor-pointer shadow-sm" onclick="selectStudent('${s.id}')">
-      <img src="${s.foto || ''}" alt="${s.nama}" class="student-photo" onerror="this.style.background='linear-gradient(135deg,#e2e8f0,#cbd5e1)';this.alt='Foto tidak tersedia';">
+      <img src="${s.foto || ''}" alt="${s.nama}" class="student-photo" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff'">
       <div class="p-3 text-center">
-        <p class="font-semibold text-slate-700 text-sm truncate">${s.nama}</p>
+        <p class="font-semibold text-slate-700 text-sm truncate">${escapeHtml(s.nama)}</p>
       </div>
     </div>
   `).join('');
@@ -364,7 +385,7 @@ function selectStudent(id) {
 
   document.getElementById('studentCardsArea').classList.add('hidden');
   document.getElementById('passwordGate').classList.remove('hidden');
-  document.getElementById('selectedStudentPhoto').src = currentStudent.foto || '';
+  document.getElementById('selectedStudentPhoto').src = currentStudent.foto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentStudent.nama) + '&background=1e293b&color=fff';
   document.getElementById('selectedStudentName').textContent = currentStudent.nama;
   document.getElementById('studentPassword').value = '';
   document.getElementById('pwdError').classList.add('hidden');
@@ -381,28 +402,28 @@ function backToStudents() {
 async function unlockGallery() {
   const pwd = document.getElementById('studentPassword').value.trim();
   if (!pwd) return;
-  document.getElementById('btnUnlock').innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  document.getElementById('btnUnlock').disabled = true;
+  
+  const btn = document.getElementById('btnUnlock');
+  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
+  btn.disabled = true;
 
-  // Check password
   if (pwd !== currentStudent.password) {
     document.getElementById('pwdError').classList.remove('hidden');
-    document.getElementById('btnUnlock').innerHTML = 'Buka Galeri';
-    document.getElementById('btnUnlock').disabled = false;
+    btn.innerHTML = 'Buka Galeri';
+    btn.disabled = false;
     return;
   }
 
-  // Load works
   const res = await apiGet('getWorks', 'studentId=' + currentStudent.id);
-  document.getElementById('btnUnlock').innerHTML = 'Buka Galeri';
-  document.getElementById('btnUnlock').disabled = false;
+  btn.innerHTML = 'Buka Galeri';
+  btn.disabled = false;
   document.getElementById('pwdError').classList.add('hidden');
 
   if (res.success) {
     works = res.data || [];
     document.getElementById('passwordGate').classList.add('hidden');
     document.getElementById('worksGallery').classList.remove('hidden');
-    document.getElementById('galleryStudentPhoto').src = currentStudent.foto || '';
+    document.getElementById('galleryStudentPhoto').src = currentStudent.foto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentStudent.nama) + '&background=1e293b&color=fff';
     document.getElementById('galleryStudentName').textContent = currentStudent.nama;
     renderPublicWorks();
   } else {
@@ -413,15 +434,21 @@ async function unlockGallery() {
 function renderPublicWorks() {
   const list = document.getElementById('worksList');
   const empty = document.getElementById('worksEmpty');
-  if (!works.length) { list.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  if (!works.length) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
   empty.classList.add('hidden');
   list.innerHTML = works.map(w => `
     <div class="card-hover bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-      <img src="${w.thumbnail || ''}" alt="${w.judul}" class="thumb-img" onerror="this.style.background='linear-gradient(135deg,#e2e8f0,#cbd5e1)';this.alt='Thumbnail tidak tersedia';">
+      <img src="${w.thumbnail || ''}" alt="${w.judul}" class="thumb-img" onerror="this.src='https://placehold.co/400x200?text=No+Image'">
       <div class="p-4">
-        <h4 class="font-bold text-slate-800 text-sm mb-1 truncate">${w.judul}</h4>
-        <p class="text-xs text-slate-400 mb-3 line-clamp-2">${w.deskripsi || ''}</p>
-        <a href="${w.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg text-xs font-semibold text-white" style="background:#1e293b"><i data-lucide="external-link" style="width:12px;height:12px"></i> Lihat Karya</a>
+        <h4 class="font-bold text-slate-800 text-sm mb-1 truncate">${escapeHtml(w.judul)}</h4>
+        <p class="text-xs text-slate-400 mb-3 line-clamp-2">${escapeHtml(w.deskripsi || '')}</p>
+        <a href="${w.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg text-xs font-semibold text-white" style="background:#1e293b">
+          <i data-lucide="external-link" style="width:12px;height:12px"></i> Lihat Karya
+        </a>
       </div>
     </div>
   `).join('');
@@ -434,16 +461,16 @@ async function doLogin() {
   const pass = document.getElementById('loginPass').value.trim();
   if (!user || !pass) return;
 
-  document.getElementById('btnLogin').innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  document.getElementById('btnLogin').disabled = true;
+  const btn = document.getElementById('btnLogin');
+  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
+  btn.disabled = true;
   document.getElementById('loginError').classList.add('hidden');
 
   const res = await apiCall('login', { username: user, password: pass });
-  document.getElementById('btnLogin').innerHTML = 'Masuk';
-  document.getElementById('btnLogin').disabled = false;
+  btn.innerHTML = 'Masuk';
+  btn.disabled = false;
 
   if (res.success) {
-    isLoggedIn = true;
     document.getElementById('adminUserLabel').textContent = user;
     showView('viewAdmin');
     showToast('Berhasil masuk!');
@@ -453,7 +480,6 @@ async function doLogin() {
 }
 
 function doLogout() {
-  isLoggedIn = false;
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
   showView('viewGallery');
@@ -468,6 +494,7 @@ function adminTab(tab) {
   document.getElementById('tabGaleri').classList.toggle('active', tab === 'galeri');
   if (tab === 'siswa') loadStudentsAdmin();
   if (tab === 'galeri') loadGaleriAdmin();
+  lucide.createIcons();
 }
 
 // =================== ADMIN: SISWA CRUD ===================
@@ -487,12 +514,14 @@ async function loadStudentsAdmin() {
 function renderSiswaTable() {
   document.getElementById('siswaTableBody').innerHTML = students.map(s => `
     <tr class="border-t border-slate-50 hover:bg-slate-50/50">
-      <td class="px-5 py-3"><img src="${s.foto || ''}" class="w-10 h-10 rounded-lg object-cover bg-slate-100" onerror="this.style.background='#e2e8f0';this.alt='';" alt=""></td>
-      <td class="px-5 py-3 font-medium text-slate-700">${s.nama}</td>
+      <td class="px-5 py-3">
+        <img src="${s.foto || ''}" class="w-10 h-10 rounded-lg object-cover bg-slate-100" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff&size=40'" alt="">
+      </td>
+      <td class="px-5 py-3 font-medium text-slate-700">${escapeHtml(s.nama)}</td>
       <td class="px-5 py-3 text-slate-400 text-xs font-mono">${'•'.repeat(Math.min(8, (s.password||'').length))}</td>
       <td class="px-5 py-3 text-right">
         <button onclick="editSiswa('${s.id}')" class="text-xs text-indigo-500 hover:text-indigo-700 font-semibold mr-3">Edit</button>
-        <button onclick="deleteSiswa('${s.id}','${s.nama}')" class="text-xs text-red-400 hover:text-red-600 font-semibold">Hapus</button>
+        <button onclick="deleteSiswa('${s.id}','${escapeHtml(s.nama)}')" class="text-xs text-red-400 hover:text-red-600 font-semibold">Hapus</button>
       </td>
     </tr>
   `).join('');
@@ -507,7 +536,9 @@ function openSiswaModal(edit = null) {
   document.getElementById('modalSiswa').classList.remove('hidden');
 }
 
-function closeSiswaModal() { document.getElementById('modalSiswa').classList.add('hidden'); }
+function closeSiswaModal() {
+  document.getElementById('modalSiswa').classList.add('hidden');
+}
 
 function editSiswa(id) {
   const s = students.find(x => x.id == id);
@@ -518,11 +549,16 @@ function deleteSiswa(id, nama) {
   document.getElementById('deleteMsg').textContent = `Hapus siswa "${nama}" beserta semua karyanya?`;
   document.getElementById('modalDelete').classList.remove('hidden');
   deleteCallback = async () => {
-    document.getElementById('btnConfirmDelete').innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
+    const btn = document.getElementById('btnConfirmDelete');
+    btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
     const res = await apiCall('deleteStudent', { id });
     closeDeleteModal();
-    if (res.success) { showToast('Siswa berhasil dihapus'); loadStudentsAdmin(); }
-    else showToast('Gagal menghapus: ' + (res.error || ''), 'error');
+    if (res.success) {
+      showToast('Siswa berhasil dihapus');
+      loadStudentsAdmin();
+    } else {
+      showToast('Gagal menghapus: ' + (res.error || ''), 'error');
+    }
   };
 }
 
@@ -531,17 +567,22 @@ async function saveSiswa() {
   const nama = document.getElementById('inputNama').value.trim();
   const password = document.getElementById('inputPassword').value.trim();
   const foto = document.getElementById('inputFoto').value.trim();
-  if (!nama || !password) { showToast('Nama dan password wajib diisi', 'error'); return; }
+  
+  if (!nama || !password) {
+    showToast('Nama dan password wajib diisi', 'error');
+    return;
+  }
 
-  document.getElementById('btnSaveSiswa').innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  document.getElementById('btnSaveSiswa').disabled = true;
+  const btn = document.getElementById('btnSaveSiswa');
+  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
+  btn.disabled = true;
 
   const action = id ? 'updateStudent' : 'createStudent';
   const data = id ? { id, nama, password, foto } : { nama, password, foto };
   const res = await apiCall(action, data);
 
-  document.getElementById('btnSaveSiswa').innerHTML = 'Simpan';
-  document.getElementById('btnSaveSiswa').disabled = false;
+  btn.innerHTML = 'Simpan';
+  btn.disabled = false;
 
   if (res.success) {
     closeSiswaModal();
@@ -569,9 +610,9 @@ async function loadGaleriAdmin() {
 function renderGaleriCards() {
   document.getElementById('galeriCards').innerHTML = students.map(s => `
     <div class="card-hover bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm cursor-pointer" onclick="openKaryaView('${s.id}')">
-      <img src="${s.foto || ''}" class="student-photo" onerror="this.style.background='linear-gradient(135deg,#e2e8f0,#cbd5e1)';this.alt='';" alt="${s.nama}">
+      <img src="${s.foto || ''}" class="student-photo" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff'" alt="${s.nama}">
       <div class="p-3 text-center">
-        <p class="font-semibold text-slate-700 text-sm">${s.nama}</p>
+        <p class="font-semibold text-slate-700 text-sm">${escapeHtml(s.nama)}</p>
         <p class="text-xs text-slate-400 mt-1">Klik untuk kelola karya</p>
       </div>
     </div>
@@ -584,7 +625,7 @@ async function openKaryaView(studentId) {
   if (!currentAdminStudent) return;
 
   showView('viewKarya');
-  document.getElementById('karyaStudentPhoto').src = currentAdminStudent.foto || '';
+  document.getElementById('karyaStudentPhoto').src = currentAdminStudent.foto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentAdminStudent.nama) + '&background=1e293b&color=fff';
   document.getElementById('karyaStudentName').textContent = currentAdminStudent.nama;
   await loadKarya();
 }
@@ -606,23 +647,28 @@ async function loadKarya() {
 function renderKaryaAdmin() {
   const list = document.getElementById('karyaList');
   const empty = document.getElementById('karyaEmpty');
-  if (!works.length) { list.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  if (!works.length) {
+    list.innerHTML = '';
+    empty.classList.remove('hidden');
+    return;
+  }
   empty.classList.add('hidden');
 
   list.innerHTML = works.map(w => `
     <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-      <img src="${w.thumbnail || ''}" alt="${w.judul}" class="thumb-img" onerror="this.style.background='linear-gradient(135deg,#e2e8f0,#cbd5e1)';this.alt='';">
+      <img src="${w.thumbnail || ''}" alt="${w.judul}" class="thumb-img" onerror="this.src='https://placehold.co/400x200?text=No+Image'">
       <div class="p-4">
-        <h4 class="font-bold text-slate-800 text-sm mb-1 truncate">${w.judul}</h4>
-        <p class="text-xs text-slate-400 mb-3 line-clamp-2">${w.deskripsi || ''}</p>
+        <h4 class="font-bold text-slate-800 text-sm mb-1 truncate">${escapeHtml(w.judul)}</h4>
+        <p class="text-xs text-slate-400 mb-3 line-clamp-2">${escapeHtml(w.deskripsi || '')}</p>
         <div class="flex gap-2">
           <a href="${w.link}" target="_blank" rel="noopener noreferrer" class="text-xs text-indigo-500 hover:text-indigo-700 font-semibold">Lihat</a>
           <button onclick="editKarya('${w.id}')" class="text-xs text-slate-500 hover:text-slate-700 font-semibold">Edit</button>
-          <button onclick="deleteKarya('${w.id}','${w.judul}')" class="text-xs text-red-400 hover:text-red-600 font-semibold">Hapus</button>
+          <button onclick="deleteKarya('${w.id}','${escapeHtml(w.judul)}')" class="text-xs text-red-400 hover:text-red-600 font-semibold">Hapus</button>
         </div>
       </div>
     </div>
   `).join('');
+  lucide.createIcons();
 }
 
 function openKaryaModal(edit = null) {
@@ -631,7 +677,6 @@ function openKaryaModal(edit = null) {
   document.getElementById('inputJudul').value = edit ? edit.judul : '';
   document.getElementById('inputDeskripsi').value = edit ? (edit.deskripsi || '') : '';
   
-  // Reset file inputs
   document.getElementById('inputThumbnailFile').value = '';
   document.getElementById('inputWorkFile').value = '';
   document.getElementById('inputThumbnail').value = edit ? (edit.thumbnail || '') : '';
@@ -644,7 +689,9 @@ function openKaryaModal(edit = null) {
   document.getElementById('modalKarya').classList.remove('hidden');
 }
 
-function closeKaryaModal() { document.getElementById('modalKarya').classList.add('hidden'); }
+function closeKaryaModal() {
+  document.getElementById('modalKarya').classList.add('hidden');
+}
 
 function editKarya(id) {
   const w = works.find(x => x.id == id);
@@ -655,83 +702,20 @@ function deleteKarya(id, judul) {
   document.getElementById('deleteMsg').textContent = `Hapus karya "${judul}"?`;
   document.getElementById('modalDelete').classList.remove('hidden');
   deleteCallback = async () => {
-    document.getElementById('btnConfirmDelete').innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
+    const btn = document.getElementById('btnConfirmDelete');
+    btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
     const res = await apiCall('deleteWork', { id });
     closeDeleteModal();
-    if (res.success) { showToast('Karya berhasil dihapus'); loadKarya(); }
-    else showToast('Gagal menghapus: ' + (res.error || ''), 'error');
+    if (res.success) {
+      showToast('Karya berhasil dihapus');
+      loadKarya();
+    } else {
+      showToast('Gagal menghapus: ' + (res.error || ''), 'error');
+    }
   };
 }
 
-async function saveKarya() {
-  const id = document.getElementById('karyaEditId').value;
-  const judul = document.getElementById('inputJudul').value.trim();
-  const deskripsi = document.getElementById('inputDeskripsi').value.trim();
-  if (!judul) { showToast('Judul wajib diisi', 'error'); return; }
-
-  document.getElementById('btnSaveKarya').innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  document.getElementById('btnSaveKarya').disabled = true;
-
-  // Upload thumbnail
-  const thumbFile = document.getElementById('inputThumbnail').dataset.file;
-  let thumbnail = document.getElementById('inputThumbnail').value;
-  if (thumbFile) {
-    showToast('Mengunggah thumbnail...');
-    thumbnail = await uploadToGDrive(thumbFile, 'thumbnail');
-    if (!thumbnail) {
-      document.getElementById('btnSaveKarya').innerHTML = 'Simpan';
-      document.getElementById('btnSaveKarya').disabled = false;
-      return;
-    }
-  }
-
-  // Upload work file
-  const workFile = document.getElementById('inputLink').dataset.file;
-  let link = document.getElementById('inputLink').value;
-  if (workFile) {
-    showToast('Mengunggah file karya...');
-    link = await uploadToGDrive(workFile, 'work');
-    if (!link) {
-      document.getElementById('btnSaveKarya').innerHTML = 'Simpan';
-      document.getElementById('btnSaveKarya').disabled = false;
-      return;
-    }
-  }
-
-  if (!thumbnail || !link) {
-    showToast('Thumbnail dan file karya wajib diisi', 'error');
-    document.getElementById('btnSaveKarya').innerHTML = 'Simpan';
-    document.getElementById('btnSaveKarya').disabled = false;
-    return;
-  }
-
-  const action = id ? 'updateWork' : 'createWork';
-  const data = id
-    ? { id, judul, deskripsi, thumbnail, link }
-    : { studentId: currentAdminStudent.id, judul, deskripsi, thumbnail, link };
-  const res = await apiCall(action, data);
-
-  document.getElementById('btnSaveKarya').innerHTML = 'Simpan';
-  document.getElementById('btnSaveKarya').disabled = false;
-
-  if (res.success) {
-    closeKaryaModal();
-    showToast(id ? 'Karya diperbarui' : 'Karya ditambahkan');
-    loadKarya();
-  } else {
-    showToast('Gagal menyimpan: ' + (res.error || ''), 'error');
-  }
-}
-
-// =================== DELETE CONFIRM ===================
-function closeDeleteModal() {
-  document.getElementById('modalDelete').classList.add('hidden');
-  document.getElementById('btnConfirmDelete').innerHTML = 'Hapus';
-  deleteCallback = null;
-}
-function confirmDelete() { if (deleteCallback) deleteCallback(); }
-
-// =================== FILE UPLOAD HANDLERS ===================
+// =================== FILE UPLOAD ===================
 function handleThumbnailFile(input) {
   const file = input.files[0];
   if (!file) return;
@@ -751,25 +735,25 @@ function handleWorkFile(input) {
   document.getElementById('inputLink').dataset.file = file;
 }
 
-// Perbaiki fungsi uploadToGDrive di HTML
 async function uploadToGDrive(file, type) {
   if (!file) return null;
   try {
     const formData = new FormData();
-    formData.append('action', 'uploadFile');  // Penting: tambahkan action
+    formData.append('action', 'uploadFile');
     formData.append('file', file);
     formData.append('type', type);
     
     const resp = await fetch(API, {
       method: 'POST',
-      body: formData  // Jangan set Content-Type, biar browser yang set dengan boundary
+      body: formData
     });
     
     const result = await resp.json();
-    if (result.success) return result.fileUrl;
-    else { 
-      showToast('Upload gagal: ' + (result.error || ''), 'error'); 
-      return null; 
+    if (result.success) {
+      return result.fileUrl;
+    } else {
+      showToast('Upload gagal: ' + (result.error || ''), 'error');
+      return null;
     }
   } catch (e) {
     console.error('Upload error:', e);
@@ -778,9 +762,103 @@ async function uploadToGDrive(file, type) {
   }
 }
 
+async function saveKarya() {
+  const id = document.getElementById('karyaEditId').value;
+  const judul = document.getElementById('inputJudul').value.trim();
+  const deskripsi = document.getElementById('inputDeskripsi').value.trim();
+  
+  if (!judul) {
+    showToast('Judul wajib diisi', 'error');
+    return;
+  }
+
+  const btn = document.getElementById('btnSaveKarya');
+  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
+  btn.disabled = true;
+
+  let thumbnail = document.getElementById('inputThumbnail').value;
+  let link = document.getElementById('inputLink').value;
+
+  const thumbFile = document.getElementById('inputThumbnail').dataset.file;
+  if (thumbFile) {
+    showToast('Mengunggah thumbnail...');
+    thumbnail = await uploadToGDrive(thumbFile, 'thumbnail');
+    if (!thumbnail) {
+      btn.innerHTML = 'Simpan';
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  const workFile = document.getElementById('inputLink').dataset.file;
+  if (workFile) {
+    showToast('Mengunggah file karya...');
+    link = await uploadToGDrive(workFile, 'work');
+    if (!link) {
+      btn.innerHTML = 'Simpan';
+      btn.disabled = false;
+      return;
+    }
+  }
+
+  if (!thumbnail) {
+    showToast('Thumbnail wajib diisi', 'error');
+    btn.innerHTML = 'Simpan';
+    btn.disabled = false;
+    return;
+  }
+  
+  if (!link) {
+    showToast('File karya wajib diisi', 'error');
+    btn.innerHTML = 'Simpan';
+    btn.disabled = false;
+    return;
+  }
+
+  const action = id ? 'updateWork' : 'createWork';
+  const data = id
+    ? { id, judul, deskripsi, thumbnail, link }
+    : { studentId: currentAdminStudent.id, judul, deskripsi, thumbnail, link };
+  
+  const res = await apiCall(action, data);
+
+  btn.innerHTML = 'Simpan';
+  btn.disabled = false;
+
+  if (res.success) {
+    closeKaryaModal();
+    showToast(id ? 'Karya diperbarui' : 'Karya ditambahkan');
+    loadKarya();
+  } else {
+    showToast('Gagal menyimpan: ' + (res.error || ''), 'error');
+  }
+}
+
+// =================== DELETE CONFIRM ===================
+function closeDeleteModal() {
+  document.getElementById('modalDelete').classList.add('hidden');
+  document.getElementById('btnConfirmDelete').innerHTML = 'Hapus';
+  deleteCallback = null;
+}
+
+function confirmDelete() {
+  if (deleteCallback) deleteCallback();
+}
+
+// =================== UTILITIES ===================
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
 // =================== INIT ===================
 loadStudents();
 lucide.createIcons();
 </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9e760348b4d5c691',t:'MTc3NTM2NTQ3NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
