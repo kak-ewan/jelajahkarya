@@ -242,24 +242,30 @@
           <label class="text-xs font-semibold text-slate-500 mb-1 block">Deskripsi</label>
           <textarea id="inputDeskripsi" rows="2" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Deskripsi singkat"></textarea>
         </div>
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">Thumbnail (Gambar)</label>
-          <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 transition" onclick="document.getElementById('inputThumbnailFile').click()">
-            <i data-lucide="image" style="width:24px;height:24px;color:#94a3b8;margin:0 auto 6px"></i>
-            <p class="text-xs text-slate-500 font-medium" id="thumbFileName">Pilih atau drag gambar</p>
-          </div>
-          <input type="file" id="inputThumbnailFile" accept="image/*" class="hidden" onchange="handleThumbnailFile(this)">
-          <input type="hidden" id="inputThumbnail" value="">
-        </div>
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">File Karya (PDF, Word, Gambar, dll)</label>
-          <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center cursor-pointer hover:border-slate-400 transition" onclick="document.getElementById('inputWorkFile').click()">
-            <i data-lucide="file" style="width:24px;height:24px;color:#94a3b8;margin:0 auto 6px"></i>
-            <p class="text-xs text-slate-500 font-medium" id="workFileName">Pilih atau drag file</p>
-          </div>
-          <input type="file" id="inputWorkFile" class="hidden" onchange="handleWorkFile(this)">
-          <input type="hidden" id="inputLink" value="">
-        </div>
+<div>
+  <label class="text-xs font-semibold text-slate-500 mb-1 block">Thumbnail</label>
+
+  <input type="file" id="inputThumbnailFile" accept="image/*" class="mb-2">
+
+  <button onclick="uploadThumbnail()" class="w-full py-2 rounded-lg text-sm font-semibold text-white bg-blue-500">
+    Upload Thumbnail
+  </button>
+
+  <p id="thumbStatus" class="text-xs text-slate-400 mt-1"></p>
+  <input type="hidden" id="inputThumbnail">
+</div>
+<div>
+  <label class="text-xs font-semibold text-slate-500 mb-1 block">File Karya</label>
+
+  <input type="file" id="inputWorkFile" class="mb-2">
+
+  <button onclick="uploadWorkFile()" class="w-full py-2 rounded-lg text-sm font-semibold text-white bg-green-600">
+    Upload File Karya
+  </button>
+
+  <p id="workStatus" class="text-xs text-slate-400 mt-1"></p>
+  <input type="hidden" id="inputLink">
+</div>
         <div class="flex gap-3 pt-2">
           <button onclick="closeKaryaModal()" type="button" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button>
           <button onclick="saveKarya()" type="button" id="btnSaveKarya" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Simpan</button>
@@ -785,34 +791,82 @@ async function uploadToGDrive(file) {
     return null;
   }
 }
+async function uploadThumbnail() {
+  const file = document.getElementById('inputThumbnailFile').files[0];
+  if (!file) {
+    showToast('Pilih file thumbnail dulu', 'error');
+    return;
+  }
+
+  document.getElementById('thumbStatus').textContent = 'Mengunggah...';
+
+  const url = await uploadToGDrive(file);
+
+  if (url) {
+    document.getElementById('inputThumbnail').value = url;
+    document.getElementById('thumbStatus').textContent = '✅ Berhasil upload';
+    showToast('Thumbnail berhasil diupload');
+  } else {
+    document.getElementById('thumbStatus').textContent = '❌ Gagal upload';
+  }
+}
+async function uploadWorkFile() {
+  const file = document.getElementById('inputWorkFile').files[0];
+  if (!file) {
+    showToast('Pilih file karya dulu', 'error');
+    return;
+  }
+
+  document.getElementById('workStatus').textContent = 'Mengunggah...';
+
+  const url = await uploadToGDrive(file);
+
+  if (url) {
+    document.getElementById('inputLink').value = url;
+    document.getElementById('workStatus').textContent = '✅ Berhasil upload';
+    showToast('File karya berhasil diupload');
+  } else {
+    document.getElementById('workStatus').textContent = '❌ Gagal upload';
+  }
+}
 
 async function saveKarya() {
   const id = document.getElementById('karyaEditId').value;
   const judul = document.getElementById('inputJudul').value.trim();
   const deskripsi = document.getElementById('inputDeskripsi').value.trim();
-  
+  const thumbnail = document.getElementById('inputThumbnail').value;
+  const link = document.getElementById('inputLink').value;
+
   if (!judul) {
     showToast('Judul wajib diisi', 'error');
     return;
   }
 
-  const btn = document.getElementById('btnSaveKarya');
-  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  btn.disabled = true;
-
-  let thumbnail = document.getElementById('inputThumbnail').value;
-  let link = document.getElementById('inputLink').value;
-
-  // Upload thumbnail if new file selected
-  if (pendingThumbnailFile) {
-    showToast('Mengunggah thumbnail...');
-    thumbnail = await uploadToGDrive(pendingThumbnailFile);
-    if (!thumbnail) {
-      btn.innerHTML = 'Simpan';
-      btn.disabled = false;
-      return;
-    }
+  if (!thumbnail) {
+    showToast('Upload thumbnail dulu', 'error');
+    return;
   }
+
+  if (!link) {
+    showToast('Upload file karya dulu', 'error');
+    return;
+  }
+
+  const action = id ? 'updateWork' : 'createWork';
+  const data = id
+    ? { id, judul, deskripsi, thumbnail, link }
+    : { studentId: currentAdminStudent.id, judul, deskripsi, thumbnail, link };
+
+  const res = await apiCall(action, data);
+
+  if (res.success) {
+    closeKaryaModal();
+    showToast('Karya berhasil disimpan');
+    loadKarya();
+  } else {
+    showToast('Gagal: ' + (res.error || ''), 'error');
+  }
+}
 
   // Upload work file if new file selected
   if (pendingWorkFile) {
