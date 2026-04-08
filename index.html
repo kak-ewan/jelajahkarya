@@ -96,12 +96,22 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
 
         input, select, textarea { font-size: 16px !important; }
+
+        .img-fallback {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f5f9;
+            color: #cbd5e1;
+            font-size: 3rem;
+        }
     </style>
 </head>
 <body class="min-h-screen pb-12">
 
     <!-- KONFIGURASI API -->
     <script>
+        // Menggunakan URL Web App terbaru yang Anda berikan
         const API_URL = "https://script.google.com/macros/s/AKfycbykadPXHxcc14mCqY42JfkoNVYDzWYSJcup9KOlEy8iRugs1Baxwaw-XOnwea4H7CVpLw/exec"; 
     </script>
 
@@ -324,7 +334,9 @@
             grid.innerHTML = appData.students.map((s, idx) => `
                 <div onclick="requestStudentAccess('${s.id}')" class="kids-card p-4 text-center cursor-pointer group">
                     <div class="${colors[idx % 5]} rounded-[1.5rem] mb-4 overflow-hidden relative aspect-square shadow-inner">
-                        <img src="${s.foto || 'https://ui-avatars.com/api/?background=random&name='+s.nama}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <img src="${s.foto || 'https://ui-avatars.com/api/?background=random&name='+s.nama}" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                             onerror="this.src='https://ui-avatars.com/api/?background=E2E8F0&color=475569&name=${s.nama}'">
                     </div>
                     <h3 class="font-black text-slate-800 text-lg mb-1 truncate">${s.nama}</h3>
                     <div class="flex items-center justify-center gap-1">
@@ -344,7 +356,6 @@
             document.getElementById('student-auth-pass').value = "";
             document.getElementById('modal-student-auth').classList.remove('hidden');
             
-            // Auto focus input
             setTimeout(() => document.getElementById('student-auth-pass').focus(), 300);
         }
 
@@ -353,7 +364,7 @@
             const inputPass = document.getElementById('student-auth-pass').value;
             const student = appData.students.find(s => s.id === id);
 
-            if (inputPass === student.pass) {
+            if (inputPass === String(student.pass)) {
                 hideModal('modal-student-auth');
                 showGallery(id);
             } else {
@@ -387,8 +398,11 @@
                 
                 return `
                     <div class="kids-card overflow-hidden flex flex-col h-full bg-white">
-                        <div class="aspect-video bg-slate-100 overflow-hidden relative">
-                            <img src="${k.thumb || k.link}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x250?text=Lihat+Karya'">
+                        <div class="aspect-video bg-slate-100 overflow-hidden relative flex items-center justify-center group">
+                            <!-- Thumbnail loader -->
+                            <img src="${k.thumb}" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                                 onerror="this.parentElement.innerHTML='<div class=\'img-fallback w-full h-full\'><i class=\'fas fa-file-alt\'></i></div>'">
                         </div>
                         <div class="p-6 flex flex-col flex-1">
                             <h4 class="font-black text-xl text-slate-800 mb-4 truncate">${k.judul}</h4>
@@ -434,7 +448,6 @@
             showView('home');
         }
 
-        // CRUD SISWA
         function showAddStudentModal() {
             document.getElementById('edit-student-id').value = "";
             document.getElementById('student-modal-title').textContent = "Siswa Baru";
@@ -492,7 +505,6 @@
             toggleLoading(false);
         }
 
-        // CRUD KARYA
         function openManageKarya(id) {
             currentAdminStudentId = id;
             const s = appData.students.find(x => x.id === id);
@@ -505,7 +517,7 @@
             const grid = document.getElementById('admin-karya-grid');
             grid.innerHTML = (karya || []).map(k => `
                 <div class="bg-white rounded-2xl overflow-hidden shadow-sm border-2 border-slate-100 group relative">
-                    <img src="${k.thumb || k.link}" class="w-full h-24 object-cover" onerror="this.src='https://via.placeholder.com/150?text=Berkas'">
+                    <img src="${k.thumb}" class="w-full h-24 object-cover" onerror="this.src='https://ui-avatars.com/api/?background=F1F5F9&color=CBD5E1&name=File'">
                     <div class="p-2">
                         <p class="text-[10px] font-black truncate text-slate-500 mb-2">${k.judul}</p>
                         <button onclick="deleteKarya('${k.id}')" class="w-full bg-red-50 text-red-500 py-1 rounded-lg text-[10px] font-bold hover:bg-red-500 hover:text-white transition">
@@ -534,7 +546,8 @@
                             studentId: currentAdminStudentId, 
                             judul: title, 
                             fileName: file.name, 
-                            fileData: base64 
+                            fileData: base64,
+                            mimeType: file.type
                         })
                     });
                     const result = await res.json();
@@ -543,6 +556,8 @@
                         fileInput.value = "";
                         await fetchData();
                         openManageKarya(currentAdminStudentId); 
+                    } else {
+                        alert("Error: " + result.message);
                     }
                 } catch(e) { console.error(e); }
                 toggleLoading(false);
