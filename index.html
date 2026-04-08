@@ -106,7 +106,7 @@
 
     <div id="loadingOverlay" class="fixed inset-0 bg-white/95 z-[100] flex flex-col items-center justify-center transition-opacity duration-300 hidden">
         <div class="loader-rainbow mb-4"></div>
-        <p class="text-xl font-black text-pink-500 animate-pulse">Memuat Keajaiban... ✨</p>
+        <p class="text-xl font-black text-pink-500 animate-pulse">Memproses Berkas... ✨</p>
     </div>
 
     <!-- Navigasi Pintar -->
@@ -133,7 +133,7 @@
         <section id="view-galeri" class="view-section">
             <div class="mb-8 md:mb-12 text-center px-2">
                 <h2 class="text-3xl md:text-5xl font-black text-slate-800 mb-2 md:mb-4">Galeri Karyaku! 🌟</h2>
-                <p class="text-sm md:text-xl text-slate-500 font-medium italic">Setiap langkah kecil adalah prestasi luar biasa!</p>
+                <p class="text-sm md:text-xl text-slate-500 font-medium italic">Tempat menyimpan memori indah belajarmu!</p>
             </div>
 
             <div class="max-w-xl mx-auto mb-10 md:mb-16 bg-white p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] shadow-xl border-b-8 border-slate-100">
@@ -199,6 +199,34 @@
 
     </main>
 
+    <!-- MODAL: MANAGE KARYA (UNGGAH KARYA) -->
+    <div id="modalKarya" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 hidden">
+        <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2rem] overflow-hidden flex flex-col shadow-2xl">
+            <div class="p-5 border-b-2 flex justify-between items-center">
+                <h3 id="modalKaryaTitle" class="text-xl font-black text-blue-600 truncate mr-4">Unggah Hasil Belajar</h3>
+                <button onclick="closeModal('modalKarya')" class="text-slate-300 text-xl"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-4 md:p-8 overflow-y-auto flex-1 bg-slate-50">
+                <div class="bg-white p-5 rounded-2xl mb-8 shadow-sm border-2 border-slate-100">
+                    <div class="grid grid-cols-1 gap-4">
+                        <div class="space-y-1">
+                            <label class="text-xs font-black text-slate-400 uppercase ml-1">Judul Hasil Belajar</label>
+                            <input type="text" id="newWorkTitle" placeholder="Misal: Mewarnai Pemandangan" class="w-full p-4 bg-slate-50 rounded-xl font-bold outline-none">
+                        </div>
+                        <div class="space-y-1">
+                            <label class="text-xs font-black text-slate-400 uppercase ml-1">Pilih File (Gambar/PDF/Video)</label>
+                            <input type="file" id="newWorkFile" class="w-full bg-slate-100 p-3 rounded-xl font-medium">
+                        </div>
+                        <button id="btnSimpanKarya" onclick="uploadAndSaveWork()" class="kids-btn-primary text-white font-black py-4 rounded-xl mt-2">
+                            <i class="fas fa-cloud-upload-alt"></i> Unggah Sekarang ✨
+                        </button>
+                    </div>
+                </div>
+                <div id="adminWorksGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- MODAL: ADD/EDIT STUDENT -->
     <div id="modalStudent" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4 hidden">
         <div class="bg-white w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl">
@@ -248,31 +276,7 @@
         </div>
     </div>
 
-    <!-- MODAL: MANAGE KARYA -->
-    <div id="modalKarya" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-2 hidden">
-        <div class="bg-white w-full max-w-4xl max-h-[90vh] rounded-[2rem] overflow-hidden flex flex-col shadow-2xl">
-            <div class="p-5 border-b-2 flex justify-between items-center">
-                <h3 id="modalKaryaTitle" class="text-xl font-black text-blue-600 truncate mr-4">Berkas Belajar</h3>
-                <button onclick="closeModal('modalKarya')" class="text-slate-300 text-xl"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="p-4 md:p-8 overflow-y-auto flex-1 bg-slate-50">
-                <div class="bg-white p-5 rounded-2xl mb-8 shadow-sm border-2 border-slate-100">
-                    <div class="grid grid-cols-1 gap-4">
-                        <input type="text" id="newWorkTitle" placeholder="Judul Karya" class="w-full p-4 bg-slate-50 rounded-xl font-bold outline-none">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <input type="file" id="newWorkFile" class="w-full bg-slate-50 p-2 rounded-xl text-xs">
-                            <input type="file" id="newWorkThumb" accept="image/*" class="w-full bg-slate-50 p-2 rounded-xl text-xs">
-                        </div>
-                        <button id="btnSimpanKarya" onclick="uploadAndSaveWork()" class="kids-btn-primary text-white font-black py-4 rounded-xl mt-2">Simpan Berkas ✨</button>
-                    </div>
-                </div>
-                <div id="adminWorksGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"></div>
-            </div>
-        </div>
-    </div>
-
     <script>
-        // URL WEB APP YANG SUDAH TERHUBUNG
         const API_URL = "https://script.google.com/macros/s/AKfycbykadPXHxcc14mCqY42JfkoNVYDzWYSJcup9KOlEy8iRugs1Baxwaw-XOnwea4H7CVpLw/exec";
         
         let allStudents = [];
@@ -363,20 +367,14 @@
             const pass = document.getElementById('studentPassInput').value;
             const foto = document.getElementById('studentPhotoInput').value;
             if(!name || !pass) return alert("Nama dan sandi wajib diisi!");
-            
             showLoading(true);
             const res = await fetchAPI({
                 action: isEditingStudent ? 'updateStudent' : 'addStudent',
                 id: isEditingStudent ? currentAdminStudentId : "S" + Date.now(),
-                nama: name,
-                pass: pass,
-                foto: foto
+                nama: name, pass: pass, foto: foto
             });
             showLoading(false);
-            if(res.success) {
-                closeModal('modalStudent');
-                refreshData();
-            }
+            if(res.success) { closeModal('modalStudent'); refreshData(); }
         }
 
         function openRekapKomentar() {
@@ -411,14 +409,18 @@
             if(res.success) refreshData().then(() => openRekapKomentar());
         }
 
+        // FUNGSI UNTUK MENAMPILKAN THUMBNAIL YANG JELAS
         function getFileIcon(url, containerClass = "w-full h-full object-cover") {
-            if (!url) return `<div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300"><i class="fas fa-image"></i></div>`;
+            if (!url) return `<div class="w-full h-full flex items-center justify-center bg-slate-100 text-slate-300"><i class="fas fa-file-alt text-2xl"></i></div>`;
+            
             let finalUrl = url;
-            if(url.includes('drive.google.com') && !url.includes('uc?id=')) {
-               const id = url.split('id=')[1] || url.split('/d/')[1]?.split('/')[0];
-               if(id) finalUrl = `https://lh3.googleusercontent.com/u/0/d/${id}=w400-h300-p-k-nu-iv1`;
+            // Jika URL adalah link Google Drive, konversi ke direct link agar muncul gambarnya
+            if(url.includes('drive.google.com')) {
+                const id = url.split('id=')[1] || url.split('/d/')[1]?.split('/')[0];
+                if(id) finalUrl = `https://lh3.googleusercontent.com/u/0/d/${id}=w600-h600-p-k-nu-iv1`;
             }
-            return `<img src="${finalUrl}" class="${containerClass}" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=Berkas';">`;
+            
+            return `<img src="${finalUrl}" class="${containerClass}" onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\\'w-full h-full flex items-center justify-center bg-blue-50 text-blue-300 font-black\\'>LIHAT KARYA</div>';">`;
         }
 
         async function handleLogin(e) {
@@ -437,7 +439,7 @@
         function openManageKarya(id) {
             currentAdminStudentId = id;
             const s = allStudents.find(x => x.id === id);
-            document.getElementById('modalKaryaTitle').textContent = `Berkas: ${s.nama}`;
+            document.getElementById('modalKaryaTitle').textContent = `Unggah Berkas: ${s.nama}`;
             renderAdminWorks(s.karya);
             document.getElementById('modalKarya').classList.remove('hidden');
         }
@@ -445,39 +447,76 @@
         function renderAdminWorks(karya) {
             const grid = document.getElementById('adminWorksGrid');
             grid.innerHTML = (karya || []).map(w => `
-                <div class="rounded-2xl overflow-hidden border-2 border-slate-100 bg-white">
-                    <div class="h-24 bg-slate-50">${getFileIcon(w.thumb || w.link)}</div>
-                    <p class="p-2 text-[10px] font-black truncate">${w.judul}</p>
+                <div class="rounded-2xl overflow-hidden border-2 border-slate-100 bg-white shadow-sm">
+                    <div class="h-28 bg-slate-50 relative">${getFileIcon(w.thumb || w.link)}</div>
+                    <div class="p-2">
+                        <p class="text-[10px] font-black truncate text-slate-600">${w.judul}</p>
+                    </div>
                 </div>
-            `).join('') || '<p class="col-span-full py-8 text-center text-slate-300">Kosong</p>';
+            `).join('') || '<p class="col-span-full py-8 text-center text-slate-300 font-bold italic">Belum ada karya</p>';
         }
 
         async function uploadAndSaveWork() {
             const title = document.getElementById('newWorkTitle').value;
             const file = document.getElementById('newWorkFile').files[0];
-            const thumb = document.getElementById('newWorkThumb').files[0];
-            if (!title || !file) return alert("Isi judul dan file!");
+            if (!title || !file) return alert("Silakan isi judul dan pilih berkas!");
+            
             showLoading(true);
-            const readFile = (f) => new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result.split(',')[1]); r.readAsDataURL(f); });
+            const readFile = (f) => new Promise(res => { 
+                const r = new FileReader(); 
+                r.onload = () => res(r.result.split(',')[1]); 
+                r.readAsDataURL(f); 
+            });
+            
             const fileBase64 = await readFile(file);
-            const thumbBase64 = thumb ? await readFile(thumb) : null;
-            const res = await fetchAPI({ action: 'uploadKarya', studentId: currentAdminStudentId, judul: title, fileData: fileBase64, fileName: file.name, thumbData: thumbBase64 });
+            
+            const res = await fetchAPI({ 
+                action: 'uploadKarya', 
+                studentId: currentAdminStudentId, 
+                judul: title, 
+                fileData: fileBase64, 
+                fileName: file.name,
+                thumbData: null // Thumbnail akan diurus otomatis oleh backend jika tipe file gambar
+            });
+            
             showLoading(false);
-            if (res.success) { closeModal('modalKarya'); refreshData(); }
+            if (res.success) { 
+                document.getElementById('newWorkTitle').value = "";
+                document.getElementById('newWorkFile').value = "";
+                alert("Berhasil diunggah! ✨");
+                refreshData().then(() => openManageKarya(currentAdminStudentId));
+            } else {
+                alert("Gagal mengunggah: " + res.message);
+            }
         }
 
         function loadStudentWorks() {
             const sid = document.getElementById('studentDropdown').value;
             const pass = document.getElementById('studentPassword').value;
             const s = allStudents.find(x => x.id === sid);
-            if(!s || s.pass !== pass) return alert("Sandi salah!");
+            if(!sid) return alert("Pilih nama dulu ya!");
+            if(!s || s.pass !== pass) return alert("Sandi rahasia salah, coba lagi ya!");
+            
             const container = document.getElementById('worksContainer');
             container.innerHTML = '';
+            
+            if(!s.karya || s.karya.length === 0) {
+                container.innerHTML = '<div class="col-span-full text-center py-20 opacity-30"><p class="text-xl font-black">Belum ada karya nih... 🎨</p></div>';
+                return;
+            }
+
             s.karya.forEach(w => {
                 const card = document.createElement('div');
                 card.className = "kids-card overflow-hidden cursor-pointer";
                 card.onclick = () => openKomentarModal(sid, w.id);
-                card.innerHTML = `<div class="h-32 sm:h-48 relative">${getFileIcon(w.thumb || w.link)}</div><div class="p-3"><h4 class="text-sm font-black truncate">${w.judul}</h4></div>`;
+                card.innerHTML = `
+                    <div class="h-32 sm:h-52 relative bg-slate-50">
+                        ${getFileIcon(w.thumb || w.link)}
+                    </div>
+                    <div class="p-3 md:p-4">
+                        <h4 class="text-sm md:text-base font-black truncate text-slate-800">${w.judul}</h4>
+                    </div>
+                `;
                 container.appendChild(card);
             });
         }
@@ -488,9 +527,11 @@
             const percakapan = (student.percakapan || []).filter(c => c.workId === kid);
             selectedWorkId = kid;
             currentAdminStudentId = sid;
-            document.getElementById('detailKaryaMedia').innerHTML = getFileIcon(work.link, "w-full h-full object-contain bg-slate-200");
+            
+            document.getElementById('detailKaryaMedia').innerHTML = getFileIcon(work.link, "w-full h-full object-contain bg-slate-900 shadow-inner");
             document.getElementById('detailKaryaTitle').textContent = work.judul;
             document.getElementById('detailKaryaSiswa').textContent = student.nama;
+            
             const chatContainer = document.getElementById('chatHistory');
             chatContainer.innerHTML = percakapan.map(chat => `
                 <div class="flex flex-col gap-1">
@@ -499,7 +540,8 @@
                     </div>
                     ${chat.balasanGuru ? `<div class="chat-bubble-guru self-end p-3 max-w-[90%] shadow-sm border border-white"><p class="font-bold text-slate-700 text-sm">${chat.balasanGuru}</p></div>` : ''}
                 </div>
-            `).join('') || '<p class="text-center text-slate-400 py-4 italic">Beri pesan yuk!</p>';
+            `).join('') || '<p class="text-center text-slate-400 py-4 italic text-sm">Belum ada pesan. Yuk, beri semangat!</p>';
+            
             document.getElementById('modalViewKarya').classList.remove('hidden');
         }
 
@@ -509,7 +551,11 @@
             showLoading(true);
             const res = await fetchAPI({ action: 'addComment', studentId: currentAdminStudentId, workId: selectedWorkId, comment: text });
             showLoading(false);
-            if (res.success) { closeModal('modalViewKarya'); refreshData(); }
+            if (res.success) { 
+                document.getElementById('inputKomentar').value = "";
+                closeModal('modalViewKarya'); 
+                refreshData().then(() => loadStudentWorks()); 
+            }
         }
 
         window.onload = refreshData;
