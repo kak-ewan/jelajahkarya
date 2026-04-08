@@ -1,942 +1,569 @@
-<!doctype html>
-<html lang="id" class="h-full">
+<!DOCTYPE html>
+<html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jejak Karyaku - Galeri Portofolio Siswa</title>
-  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    *{font-family:'Plus Jakarta Sans',sans-serif;box-sizing:border-box}
-    html,body{height:100%;margin:0;overflow:hidden}
-    .app-root{height:100%;width:100%;overflow-y:auto;overflow-x:hidden}
-    .toast{position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:10px;color:#fff;font-weight:600;font-size:14px;opacity:0;transform:translateY(-10px);transition:all .3s ease;pointer-events:none}
-    .toast.show{opacity:1;transform:translateY(0)}
-    .toast.success{background:#10b981}
-    .toast.error{background:#ef4444}
-    .card-hover{transition:all .3s cubic-bezier(.4,0,.2,1)}
-    .card-hover:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(0,0,0,.12)}
-    .fade-in{animation:fadeIn .4s ease}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-    .spinner{width:24px;height:24px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .6s linear infinite;display:inline-block}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:100;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px)}
-    .sidebar-link{transition:all .2s}
-    .sidebar-link:hover,.sidebar-link.active{background:rgba(255,255,255,.12)}
-    input:focus,select:focus,textarea:focus{outline:none;box-shadow:0 0 0 3px rgba(99,102,241,.25)}
-    .thumb-img{width:100%;height:160px;object-fit:cover;border-radius:8px 8px 0 0;background:#e2e8f0}
-    .student-photo{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px;background:#e2e8f0}
-    .line-clamp-2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jejak Karyaku - Galeri Kebahagiaan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #FF6B6B;
+            --secondary: #4ECDC4;
+            --accent: #FFE66D;
+            --bg-child: #F0F9FF;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: var(--bg-child);
+            background-image: radial-gradient(#d1fae5 2px, transparent 2px), radial-gradient(#d1fae5 2px, transparent 2px);
+            background-size: 40px 40px;
+            background-position: 0 0, 20px 20px;
+        }
+
+        .kids-card {
+            background: white;
+            border: 6px solid #fff;
+            border-radius: 2.5rem;
+            box-shadow: 0 12px 0px #e2e8f0;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .kids-btn-primary {
+            background-color: var(--primary);
+            box-shadow: 0 6px 0px #cc5656;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .kids-btn-primary:active:not(:disabled) {
+            transform: translateY(6px);
+            box-shadow: 0 0px 0px #cc5656;
+        }
+
+        .kids-btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: translateY(4px);
+        }
+
+        .kids-btn-secondary {
+            background-color: var(--secondary);
+            box-shadow: 0 6px 0px #3ea39c;
+            transition: all 0.2s;
+        }
+
+        .loader-rainbow {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid var(--primary);
+            border-right: 8px solid var(--secondary);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .modal-animate {
+            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .file-icon-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8fafc;
+            color: #94a3b8;
+        }
+
+        .spinner-small {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+    </style>
 </head>
-<body class="h-full">
-<div class="app-root" id="app" style="background:#f0f2f5">
-  <div id="toast" class="toast"></div>
+<body class="min-h-screen text-slate-700">
 
-  <!-- GALERI VIEW -->
-  <div id="viewGallery" class="min-h-full">
-    <div id="heroSection" style="background:linear-gradient(135deg,#1e293b 0%,#334155 50%,#475569 100%)" class="px-6 py-12 text-center text-white relative overflow-hidden">
-      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,.04);border-radius:50%"></div>
-      <div style="position:absolute;bottom:-60px;left:-30px;width:160px;height:160px;background:rgba(255,255,255,.03);border-radius:50%"></div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight mb-2 relative z-10">✨ Jejak Karyaku</h1>
-      <p class="text-slate-300 text-base md:text-lg font-light relative z-10">Galeri Portofolio Siswa</p>
-      <button onclick="showView('viewLogin')" class="mt-6 inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold relative z-10" style="background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.2)">
-        <i data-lucide="lock" style="width:16px;height:16px"></i> Panel Guru
-      </button>
+    <div id="loadingOverlay" class="fixed inset-0 bg-white/95 z-50 flex flex-col items-center justify-center transition-opacity duration-300 hidden">
+        <div class="loader-rainbow mb-6"></div>
+        <p class="text-2xl font-black text-pink-500 animate-bounce">Tunggu sebentar ya... ✨</p>
     </div>
 
-    <div class="max-w-5xl mx-auto px-4 py-8">
-      <div id="studentCardsArea" class="mb-8">
-        <h2 class="text-lg font-bold text-slate-700 mb-4">Pilih Siswa</h2>
-        <div id="studentCards" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
-        <div id="studentCardsLoading" class="text-center py-10 text-slate-400">
-          <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-          <p class="mt-3 text-sm">Memuat data siswa...</p>
-        </div>
-      </div>
-
-      <div id="passwordGate" class="hidden max-w-sm mx-auto bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center fade-in">
-        <img id="selectedStudentPhoto" class="w-20 h-20 rounded-full object-cover mx-auto mb-3 bg-slate-200" src="" alt="">
-        <h3 id="selectedStudentName" class="font-bold text-slate-800 text-lg mb-4"></h3>
-        <div class="relative mb-4">
-          <input type="password" id="studentPassword" placeholder="Masukkan password" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" onkeydown="if(event.key==='Enter')unlockGallery()">
-        </div>
-        <button onclick="unlockGallery()" id="btnUnlock" class="w-full py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Buka Galeri</button>
-        <p id="pwdError" class="text-red-500 text-xs mt-2 hidden">Password salah</p>
-        <button onclick="backToStudents()" class="mt-3 text-sm text-slate-400 hover:text-slate-600">← Kembali</button>
-      </div>
-
-      <div id="worksGallery" class="hidden fade-in">
-        <div class="flex items-center justify-between mb-6">
-          <div class="flex items-center gap-3">
-            <img id="galleryStudentPhoto" class="w-10 h-10 rounded-full object-cover bg-slate-200" src="" alt="">
-            <div>
-              <h3 id="galleryStudentName" class="font-bold text-slate-800"></h3>
-              <p class="text-xs text-slate-400">Koleksi Karya</p>
+    <nav class="p-4 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto flex justify-between items-center bg-white/90 backdrop-blur-md p-5 rounded-[2.5rem] shadow-xl border-4 border-white">
+            <div class="flex items-center gap-4">
+                <div class="bg-yellow-400 p-3 rounded-2xl shadow-lg">
+                    <i class="fas fa-rocket text-white text-3xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-3xl font-black text-orange-500 leading-none">Jejak Karyaku</h1>
+                    <span class="text-sm font-bold text-blue-400 uppercase tracking-widest">Portofolio Digital Ceria</span>
+                </div>
             </div>
-          </div>
-          <button onclick="backToStudents()" class="text-sm text-slate-500 hover:text-slate-700 flex items-center gap-1">
-            <i data-lucide="arrow-left" style="width:14px;height:14px"></i> Kembali
-          </button>
+            <div class="flex gap-3">
+                <button onclick="switchView('galeri')" class="px-5 py-2 font-black text-blue-500 hover:bg-blue-50 rounded-2xl transition-all">🏠 Beranda</button>
+                <button onclick="switchView('login-guru')" class="kids-btn-secondary text-white px-6 py-2 rounded-2xl font-black transition-all">🔑 Guru</button>
+            </div>
         </div>
-        <div id="worksList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
-        <div id="worksEmpty" class="hidden text-center py-16 text-slate-400">
-          <i data-lucide="image" style="width:48px;height:48px;margin:0 auto 12px;opacity:.4"></i>
-          <p class="font-medium">Belum ada karya</p>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 py-8">
+
+        <!-- VIEW: GALERI SISWA -->
+        <section id="view-galeri" class="view-section">
+            <div class="mb-12 text-center">
+                <h2 class="text-5xl font-black text-slate-800 mb-4">Ayo Lihat Karya Kita! 🌟</h2>
+                <p class="text-xl text-slate-500 font-medium italic">"Setiap langkah kecil adalah prestasi yang luar biasa!"</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto mb-16 bg-white p-10 rounded-[3rem] shadow-2xl border-b-[12px] border-slate-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-3">
+                        <label class="block text-lg font-black text-slate-600 ml-2">Pilih Namamu ✨</label>
+                        <select id="studentDropdown" class="w-full bg-slate-50 border-4 border-slate-100 rounded-2xl p-4 font-bold outline-none appearance-none">
+                            <option value="">-- Siapa Namamu? --</option>
+                        </select>
+                    </div>
+                    <div class="space-y-3">
+                        <label class="block text-lg font-black text-slate-600 ml-2">Sandi Rahasia 🤫</label>
+                        <input type="password" id="studentPassword" placeholder="Sandi kamu..." class="w-full bg-slate-50 border-4 border-slate-100 rounded-2xl p-4 font-bold outline-none">
+                    </div>
+                </div>
+                <button onclick="loadStudentWorks()" class="kids-btn-primary w-full mt-10 text-white text-2xl font-black py-5 rounded-[2rem]">
+                    <i class="fas fa-eye"></i> Buka Galeri Saya!
+                </button>
+            </div>
+
+            <div id="worksContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+                <div class="col-span-full text-center py-24">
+                    <div class="text-[120px] mb-8 opacity-40">🎒</div>
+                    <p class="text-3xl font-black text-slate-300">Ayo masukkan namamu!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: LOGIN GURU -->
+        <section id="view-login-guru" class="view-section hidden">
+            <div class="max-w-md mx-auto mt-12">
+                <div class="bg-white p-12 rounded-[3.5rem] shadow-2xl border-t-[12px] border-blue-400">
+                    <div class="text-center mb-10">
+                        <div class="inline-block bg-blue-50 p-8 rounded-full mb-6">
+                            <i class="fas fa-user-tie text-5xl text-blue-500"></i>
+                        </div>
+                        <h2 class="text-4xl font-black text-slate-800">Halo Guru!</h2>
+                    </div>
+                    <form onsubmit="handleLogin(event)" class="space-y-6">
+                        <input type="text" id="adminUser" placeholder="Nama Pengguna" required class="w-full px-8 py-5 bg-slate-50 border-4 border-slate-50 rounded-2xl font-black text-lg outline-none">
+                        <input type="password" id="adminPass" placeholder="Kata Sandi" required class="w-full px-8 py-5 bg-slate-50 border-4 border-slate-50 rounded-2xl font-black text-lg outline-none">
+                        <button type="submit" class="kids-btn-secondary w-full text-white font-black py-5 rounded-[2rem] text-xl shadow-xl">Masuk</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: ADMIN DASHBOARD -->
+        <section id="view-admin-dashboard" class="view-section hidden">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+                <h2 class="text-4xl font-black text-slate-800">Pusat Karya & Komentar 🏆</h2>
+                <div class="flex gap-4">
+                    <button onclick="openAddStudentModal()" class="bg-green-500 kids-btn-primary text-white px-6 py-4 rounded-[2rem] font-black text-lg border-none">
+                        + Siswa
+                    </button>
+                    <button onclick="openRekapKomentar()" class="bg-blue-500 kids-btn-secondary text-white px-6 py-4 rounded-[2rem] font-black text-lg border-none">
+                        💬 Rekap Komentar
+                    </button>
+                </div>
+            </div>
+            <div id="adminStudentList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </section>
+
+    </main>
+
+    <!-- MODAL: REKAP KOMENTAR (GURU) -->
+    <div id="modalRekap" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-4xl max-h-[85vh] overflow-hidden rounded-[3.5rem] shadow-2xl flex flex-col modal-animate">
+            <div class="p-8 border-b-4 border-slate-50 flex justify-between items-center bg-blue-50">
+                <h3 class="text-3xl font-black text-blue-600">Pesan & Komentar Wali Murid 💌</h3>
+                <button onclick="closeModal('modalRekap')" class="bg-white w-12 h-12 rounded-full flex items-center justify-center shadow-lg"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="rekapContainer" class="p-8 overflow-y-auto space-y-4">
+                <!-- Komentar akan masuk di sini -->
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <!-- LOGIN VIEW -->
-  <div id="viewLogin" class="hidden min-h-full flex items-center justify-center p-6" style="background:linear-gradient(135deg,#1e293b,#334155)">
-    <div class="bg-white rounded-2xl p-8 w-full max-w-sm shadow-xl fade-in">
-      <div class="text-center mb-6">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3" style="background:#f1f5f9">
-          <i data-lucide="shield-check" style="width:28px;height:28px;color:#1e293b"></i>
+    <!-- MODAL: DETAIL KARYA & KOMENTAR (WALI MURID) -->
+    <div id="modalViewKarya" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-2xl max-h-[95vh] overflow-hidden rounded-[3.5rem] shadow-2xl flex flex-col modal-animate">
+            <div id="detailKaryaMedia" class="h-64 bg-slate-100 relative"></div>
+            <div class="p-8 overflow-y-auto">
+                <h3 id="detailKaryaTitle" class="text-3xl font-black text-slate-800 mb-2">Judul Karya</h3>
+                <p id="detailKaryaSiswa" class="text-blue-500 font-bold mb-6">Karya: Nama Siswa</p>
+                
+                <div class="bg-pink-50 p-6 rounded-[2rem] border-4 border-pink-100">
+                    <h4 class="font-black text-pink-600 mb-3 flex items-center gap-2">
+                        <i class="fas fa-comment-dots"></i> Tinggalkan Pesan Sayang:
+                    </h4>
+                    <textarea id="inputKomentar" placeholder="Tulis pujian atau pesan penyemangat di sini..." class="w-full p-4 rounded-2xl border-none font-bold text-slate-600 focus:ring-4 focus:ring-pink-200 outline-none" rows="3"></textarea>
+                    <button id="btnKirimKomentar" onclick="submitKomentar()" class="kids-btn-primary w-full mt-4 text-white font-black py-4 rounded-2xl border-none">
+                        <span>Kirim Komentar</span> <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 text-center">
+                <button onclick="closeModal('modalViewKarya')" class="font-black text-slate-400 hover:text-slate-600 transition-colors">Tutup Galeri</button>
+            </div>
         </div>
-        <h2 class="text-xl font-bold text-slate-800">Panel Guru</h2>
-        <p class="text-sm text-slate-400">Masuk untuk mengelola data</p>
-      </div>
-      <div class="space-y-4">
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">Username</label>
-          <input id="loginUser" type="text" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Username">
-        </div>
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">Password</label>
-          <input id="loginPass" type="password" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()">
-        </div>
-        <p id="loginError" class="text-red-500 text-xs hidden">Username atau password salah</p>
-        <button onclick="doLogin()" id="btnLogin" class="w-full py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Masuk</button>
-      </div>
-      <button onclick="showView('viewGallery')" class="mt-4 text-sm text-slate-400 hover:text-slate-600 w-full text-center">← Kembali ke Galeri</button>
     </div>
-  </div>
 
-  <!-- ADMIN PANEL -->
-  <div id="viewAdmin" class="hidden min-h-full flex" style="background:#f0f2f5">
-    <aside class="w-60 shrink-0 text-white flex flex-col" style="background:#1e293b;min-height:100%">
-      <div class="p-5 border-b border-white/10">
-        <h2 class="font-extrabold text-lg tracking-tight">📋 Panel Guru</h2>
-        <p class="text-xs text-slate-400 mt-1" id="adminUserLabel">admin</p>
-      </div>
-      <nav class="flex-1 p-3 space-y-1">
-        <button onclick="adminTab('siswa')" id="tabSiswa" class="sidebar-link active w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2">
-          <i data-lucide="users" style="width:16px;height:16px"></i> Data Siswa
-        </button>
-        <button onclick="adminTab('galeri')" id="tabGaleri" class="sidebar-link w-full text-left px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2">
-          <i data-lucide="image" style="width:16px;height:16px"></i> Galeri Karya
-        </button>
-      </nav>
-      <div class="p-3 border-t border-white/10">
-        <button onclick="doLogout()" class="w-full px-4 py-2.5 rounded-lg text-sm font-medium flex items-center gap-2 hover:bg-white/10 transition">
-          <i data-lucide="log-out" style="width:16px;height:16px"></i> Keluar
-        </button>
-      </div>
-    </aside>
-
-    <div class="flex-1 overflow-y-auto p-6">
-      <div id="panelSiswa" class="fade-in">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-xl font-bold text-slate-800">Data Siswa</h2>
-          <button onclick="openSiswaModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold" style="background:#1e293b">
-            <i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Siswa
-          </button>
+    <!-- MODAL: MANAGE KARYA -->
+    <div id="modalKarya" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-5xl max-h-[90vh] overflow-hidden rounded-[3.5rem] shadow-2xl flex flex-col modal-animate">
+            <div class="p-8 border-b-4 border-slate-50 flex justify-between items-center">
+                <h3 id="modalKaryaTitle" class="text-3xl font-black text-blue-600">Kelola Hasil Belajar</h3>
+                <button onclick="closeModal('modalKarya')" class="text-2xl text-slate-300"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="p-8 overflow-y-auto flex-1">
+                <div class="bg-yellow-50 p-8 rounded-[2.5rem] mb-10 border-4 border-dashed border-yellow-200">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" id="newWorkTitle" placeholder="Judul Karya / Tugas" class="w-full p-4 border-4 border-white rounded-2xl font-bold outline-none focus:border-yellow-300 transition-all">
+                        <input type="file" id="newWorkFile" class="w-full bg-white p-3 rounded-2xl border-4 border-white font-bold">
+                        <button id="btnSimpanKarya" onclick="uploadAndSaveWork()" class="md:col-span-2 kids-btn-primary text-white font-black py-4 rounded-2xl border-none">
+                            <span>Simpan Hasil Belajar</span> <i class="fas fa-cloud-upload-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="adminWorksGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+            </div>
         </div>
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <table class="w-full text-sm">
-            <thead>
-              <tr class="bg-slate-50 text-slate-500 text-xs uppercase tracking-wider">
-                <th class="px-5 py-3 text-left">Foto</th>
-                <th class="px-5 py-3 text-left">Nama</th>
-                <th class="px-5 py-3 text-left">Password</th>
-                <th class="px-5 py-3 text-right">Aksi</th>
-              </tr>
-            </thead>
-            <tbody id="siswaTableBody"></tbody>
-          </table>
-          <div id="siswaLoading" class="text-center py-10 text-slate-400">
-            <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-          </div>
-        </div>
-      </div>
-
-      <div id="panelGaleri" class="hidden fade-in">
-        <h2 class="text-xl font-bold text-slate-800 mb-6">Galeri Karya Siswa</h2>
-        <div id="galeriCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5"></div>
-        <div id="galeriLoading" class="text-center py-10 text-slate-400">
-          <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-        </div>
-      </div>
     </div>
-  </div>
 
-  <!-- KARYA DETAIL VIEW -->
-  <div id="viewKarya" class="hidden min-h-full" style="background:#f0f2f5">
-    <div class="max-w-5xl mx-auto px-4 py-6">
-      <button onclick="showView('viewAdmin');adminTab('galeri')" class="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700 mb-4">
-        <i data-lucide="arrow-left" style="width:14px;height:14px"></i> Kembali ke Galeri
-      </button>
-      <div class="flex items-center justify-between mb-6">
-        <div class="flex items-center gap-3">
-          <img id="karyaStudentPhoto" class="w-12 h-12 rounded-full object-cover bg-slate-200" src="" alt="">
-          <div>
-            <h2 id="karyaStudentName" class="text-xl font-bold text-slate-800"></h2>
-            <p class="text-xs text-slate-400">Kelola Karya</p>
-          </div>
+    <!-- MODAL: DATA SISWA -->
+    <div id="modalSiswa" class="fixed inset-0 bg-slate-900/70 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-[3rem] p-10 modal-animate">
+            <h3 id="modalSiswaTitle" class="text-3xl font-black mb-8 text-center">Data Siswa</h3>
+            <div class="space-y-4">
+                <input type="hidden" id="editStudentId">
+                <input type="text" id="inputSiswaNama" placeholder="Nama Lengkap" class="w-full p-5 bg-slate-50 rounded-2xl font-black outline-none border-4 border-transparent focus:border-blue-400">
+                <input type="text" id="inputSiswaFoto" placeholder="Link Foto Profil (Opsional)" class="w-full p-5 bg-slate-50 rounded-2xl font-black outline-none">
+                <input type="text" id="inputSiswaPass" placeholder="Sandi Akses" class="w-full p-5 bg-slate-50 rounded-2xl font-black outline-none">
+                <div class="flex gap-4 pt-4">
+                    <button onclick="closeModal('modalSiswa')" class="flex-1 font-black text-slate-400">Batal</button>
+                    <button onclick="saveStudentData()" class="flex-1 kids-btn-primary text-white font-black py-4 rounded-2xl border-none">Simpan</button>
+                </div>
+            </div>
         </div>
-        <button onclick="openKaryaModal()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-semibold" style="background:#1e293b">
-          <i data-lucide="plus" style="width:16px;height:16px"></i> Tambah Karya
-        </button>
-      </div>
-      <div id="karyaList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
-      <div id="karyaEmpty" class="hidden text-center py-16 text-slate-400">
-        <i data-lucide="file-text" style="width:48px;height:48px;margin:0 auto 12px;opacity:.4"></i>
-        <p class="font-medium">Belum ada karya</p>
-      </div>
-      <div id="karyaLoading" class="text-center py-10 text-slate-400">
-        <span class="spinner" style="border-color:rgba(100,116,139,.3);border-top-color:#64748b"></span>
-      </div>
     </div>
-  </div>
 
-  <!-- MODAL SISWA -->
-  <div id="modalSiswa" class="modal-overlay hidden">
-    <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 fade-in">
-      <h3 id="modalSiswaTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Siswa</h3>
-      <form onsubmit="return false" class="space-y-4">
-        <input type="hidden" id="siswaEditId" value="">
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">Nama Siswa</label>
-          <input id="inputNama" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Nama lengkap">
-        </div>
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">Password</label>
-          <input id="inputPassword" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Password siswa">
-        </div>
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">URL Foto</label>
-          <input id="inputFoto" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="https://drive.google.com/...">
-        </div>
-        <div class="flex gap-3 pt-2">
-          <button onclick="closeSiswaModal()" type="button" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button>
-          <button onclick="saveSiswa()" type="button" id="btnSaveSiswa" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL KARYA -->
-  <div id="modalKarya" class="modal-overlay hidden">
-    <div class="bg-white rounded-2xl w-full max-w-md mx-4 p-6 fade-in">
-      <h3 id="modalKaryaTitle" class="text-lg font-bold text-slate-800 mb-4">Tambah Karya</h3>
-      <form onsubmit="return false" class="space-y-4">
-        <input type="hidden" id="karyaEditId" value="">
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">Judul Karya</label>
-          <input id="inputJudul" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Judul karya">
-        </div>
-        <div>
-          <label class="text-xs font-semibold text-slate-500 mb-1 block">Deskripsi</label>
-          <textarea id="inputDeskripsi" rows="2" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:border-indigo-400" placeholder="Deskripsi singkat"></textarea>
-        </div>
-<div>
-  <label class="text-xs font-semibold text-slate-500 mb-1 block">Thumbnail</label>
-
-  <input type="file" id="inputThumbnailFile" accept="image/*" class="mb-2">
-
-  <button onclick="uploadThumbnail()" class="w-full py-2 rounded-lg text-sm font-semibold text-white bg-blue-500">
-    Upload Thumbnail
-  </button>
-
-  <p id="thumbStatus" class="text-xs text-slate-400 mt-1"></p>
-  <input type="hidden" id="inputThumbnail">
-</div>
-<div>
-  <label class="text-xs font-semibold text-slate-500 mb-1 block">File Karya</label>
-
-  <input type="file" id="inputWorkFile" class="mb-2">
-
-  <button onclick="uploadWorkFile()" class="w-full py-2 rounded-lg text-sm font-semibold text-white bg-green-600">
-    Upload File Karya
-  </button>
-
-  <p id="workStatus" class="text-xs text-slate-400 mt-1"></p>
-  <input type="hidden" id="inputLink">
-</div>
-        <div class="flex gap-3 pt-2">
-          <button onclick="closeKaryaModal()" type="button" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button>
-          <button onclick="saveKarya()" type="button" id="btnSaveKarya" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm" style="background:#1e293b">Simpan</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL DELETE -->
-  <div id="modalDelete" class="modal-overlay hidden">
-    <div class="bg-white rounded-2xl w-full max-w-sm mx-4 p-6 text-center fade-in">
-      <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4" style="background:#fef2f2">
-        <i data-lucide="trash-2" style="width:24px;height:24px;color:#ef4444"></i>
-      </div>
-      <h3 class="text-lg font-bold text-slate-800 mb-2">Hapus Data?</h3>
-      <p id="deleteMsg" class="text-sm text-slate-500 mb-5">Data akan dihapus permanen.</p>
-      <div class="flex gap-3">
-        <button onclick="closeDeleteModal()" class="flex-1 py-3 rounded-xl font-semibold text-sm border border-slate-200 text-slate-600">Batal</button>
-        <button onclick="confirmDelete()" id="btnConfirmDelete" class="flex-1 py-3 rounded-xl font-semibold text-white text-sm bg-red-500">Hapus</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-// =================== KONFIGURASI ===================
-// GANTI DENGAN URL DEPLOYMENT APPS SCRIPT ANDA
-const API = 'https://script.google.com/macros/s/AKfycbxD7xzE9OZ3Mj9nxB5Rv_y1v-Od_IXA_mUTG-8xqRfmDIJ0BVrb8D_lS1yKDxgMqEoy/exec';
-
-let students = [];
-let works = [];
-let currentStudent = null;
-let currentAdminStudent = null;
-let deleteCallback = null;
-
-// Variabel untuk menyimpan file
-let pendingThumbnailFile = null;
-let pendingWorkFile = null;
-
-// =================== API HELPERS ===================
-async function apiCall(action, data = {}) {
-  try {
-    const payload = JSON.stringify({ action, ...data });
-    const resp = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: payload
-    });
-    const text = await resp.text();
-    try {
-      return JSON.parse(text);
-    } catch {
-      return { success: false, error: 'Invalid response: ' + text.substring(0, 200) };
-    }
-  } catch (e) {
-    return { success: false, error: e.message };
-  }
-}
-
-async function apiGet(action, params = '') {
-  try {
-    const url = API + '?action=' + action + (params ? '&' + params : '');
-    const resp = await fetch(url);
-    const text = await resp.text();
-    try {
-      return JSON.parse(text);
-    } catch {
-      return { success: false, error: 'Invalid response: ' + text.substring(0, 200) };
-    }
-  } catch (e) {
-    return { success: false, error: e.message };
-  }
-}
-
-// =================== TOAST ===================
-function showToast(msg, type = 'success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast ' + type + ' show';
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// =================== VIEW MANAGEMENT ===================
-function showView(id) {
-  const views = ['viewGallery', 'viewLogin', 'viewAdmin', 'viewKarya'];
-  views.forEach(v => {
-    document.getElementById(v).classList.toggle('hidden', v !== id);
-  });
-  if (id === 'viewGallery') loadStudents();
-  if (id === 'viewAdmin') loadStudentsAdmin();
-  lucide.createIcons();
-}
-
-// =================== GALLERY (PUBLIC) ===================
-async function loadStudents() {
-  document.getElementById('studentCardsLoading').classList.remove('hidden');
-  document.getElementById('studentCards').innerHTML = '';
-  document.getElementById('passwordGate').classList.add('hidden');
-  document.getElementById('worksGallery').classList.add('hidden');
-
-  const res = await apiGet('getStudents');
-  document.getElementById('studentCardsLoading').classList.add('hidden');
-
-  if (res.success && res.data) {
-    students = res.data;
-    renderStudentCards();
-  } else {
-    document.getElementById('studentCards').innerHTML = '<p class="col-span-full text-center text-slate-400 py-10">Gagal memuat data siswa</p>';
-  }
-}
-
-function renderStudentCards() {
-  const container = document.getElementById('studentCards');
-  container.innerHTML = students.map(s => `
-    <div class="card-hover bg-white rounded-2xl overflow-hidden border border-slate-100 cursor-pointer shadow-sm" onclick="selectStudent('${s.id}')">
-      <img src="${s.foto || ''}" alt="${s.nama}" class="student-photo" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff'">
-      <div class="p-3 text-center">
-        <p class="font-semibold text-slate-700 text-sm truncate">${escapeHtml(s.nama)}</p>
-      </div>
-    </div>
-  `).join('');
-}
-
-function selectStudent(id) {
-  currentStudent = students.find(s => s.id == id);
-  if (!currentStudent) return;
-
-  document.getElementById('studentCardsArea').classList.add('hidden');
-  document.getElementById('passwordGate').classList.remove('hidden');
-  document.getElementById('selectedStudentPhoto').src = currentStudent.foto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentStudent.nama) + '&background=1e293b&color=fff';
-  document.getElementById('selectedStudentName').textContent = currentStudent.nama;
-  document.getElementById('studentPassword').value = '';
-  document.getElementById('pwdError').classList.add('hidden');
-  document.getElementById('studentPassword').focus();
-}
-
-function backToStudents() {
-  document.getElementById('studentCardsArea').classList.remove('hidden');
-  document.getElementById('passwordGate').classList.add('hidden');
-  document.getElementById('worksGallery').classList.add('hidden');
-  currentStudent = null;
-}
-
-async function unlockGallery() {
-  const pwd = document.getElementById('studentPassword').value.trim();
-  if (!pwd) return;
-  
-  const btn = document.getElementById('btnUnlock');
-  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  btn.disabled = true;
-
-  if (pwd !== currentStudent.password) {
-    document.getElementById('pwdError').classList.remove('hidden');
-    btn.innerHTML = 'Buka Galeri';
-    btn.disabled = false;
-    return;
-  }
-
-  const res = await apiGet('getWorks', 'studentId=' + currentStudent.id);
-  btn.innerHTML = 'Buka Galeri';
-  btn.disabled = false;
-  document.getElementById('pwdError').classList.add('hidden');
-
-  if (res.success) {
-    works = res.data || [];
-    document.getElementById('passwordGate').classList.add('hidden');
-    document.getElementById('worksGallery').classList.remove('hidden');
-    document.getElementById('galleryStudentPhoto').src = currentStudent.foto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentStudent.nama) + '&background=1e293b&color=fff';
-    document.getElementById('galleryStudentName').textContent = currentStudent.nama;
-    renderPublicWorks();
-  } else {
-    showToast('Gagal memuat karya', 'error');
-  }
-}
-
-function renderPublicWorks() {
-  const list = document.getElementById('worksList');
-  const empty = document.getElementById('worksEmpty');
-  if (!works.length) {
-    list.innerHTML = '';
-    empty.classList.remove('hidden');
-    return;
-  }
-  empty.classList.add('hidden');
-  list.innerHTML = works.map(w => `
-    <div class="card-hover bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-      <img src="${w.thumbnail || ''}" alt="${w.judul}" class="thumb-img" onerror="this.src='https://placehold.co/400x200?text=No+Image'">
-      <div class="p-4">
-        <h4 class="font-bold text-slate-800 text-sm mb-1 truncate">${escapeHtml(w.judul)}</h4>
-        <p class="text-xs text-slate-400 mb-3 line-clamp-2">${escapeHtml(w.deskripsi || '')}</p>
-        <a href="${w.link}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-4 py-2 rounded-lg text-xs font-semibold text-white" style="background:#1e293b">
-          <i data-lucide="external-link" style="width:12px;height:12px"></i> Lihat Karya
-        </a>
-      </div>
-    </div>
-  `).join('');
-  lucide.createIcons();
-}
-
-// =================== LOGIN ===================
-async function doLogin() {
-  const user = document.getElementById('loginUser').value.trim();
-  const pass = document.getElementById('loginPass').value.trim();
-  if (!user || !pass) return;
-
-  const btn = document.getElementById('btnLogin');
-  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  btn.disabled = true;
-  document.getElementById('loginError').classList.add('hidden');
-
-  const res = await apiCall('login', { username: user, password: pass });
-  btn.innerHTML = 'Masuk';
-  btn.disabled = false;
-
-  if (res.success) {
-    document.getElementById('adminUserLabel').textContent = user;
-    showView('viewAdmin');
-    showToast('Berhasil masuk!');
-  } else {
-    document.getElementById('loginError').classList.remove('hidden');
-  }
-}
-
-function doLogout() {
-  document.getElementById('loginUser').value = '';
-  document.getElementById('loginPass').value = '';
-  showView('viewGallery');
-  showToast('Berhasil keluar');
-}
-
-// =================== ADMIN TAB ===================
-function adminTab(tab) {
-  document.getElementById('panelSiswa').classList.toggle('hidden', tab !== 'siswa');
-  document.getElementById('panelGaleri').classList.toggle('hidden', tab !== 'galeri');
-  document.getElementById('tabSiswa').classList.toggle('active', tab === 'siswa');
-  document.getElementById('tabGaleri').classList.toggle('active', tab === 'galeri');
-  if (tab === 'siswa') loadStudentsAdmin();
-  if (tab === 'galeri') loadGaleriAdmin();
-  lucide.createIcons();
-}
-
-// =================== ADMIN: SISWA CRUD ===================
-async function loadStudentsAdmin() {
-  document.getElementById('siswaLoading').classList.remove('hidden');
-  document.getElementById('siswaTableBody').innerHTML = '';
-
-  const res = await apiGet('getStudents');
-  document.getElementById('siswaLoading').classList.add('hidden');
-
-  if (res.success && res.data) {
-    students = res.data;
-    renderSiswaTable();
-  }
-}
-
-function renderSiswaTable() {
-  document.getElementById('siswaTableBody').innerHTML = students.map(s => `
-    <tr class="border-t border-slate-50 hover:bg-slate-50/50">
-      <td class="px-5 py-3">
-        <img src="${s.foto || ''}" class="w-10 h-10 rounded-lg object-cover bg-slate-100" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff&size=40'" alt="">
-      </td>
-      <td class="px-5 py-3 font-medium text-slate-700">${escapeHtml(s.nama)}</td>
-      <td class="px-5 py-3 text-slate-400 text-xs font-mono">${'•'.repeat(Math.min(8, (s.password||'').length))}</td>
-      <td class="px-5 py-3 text-right">
-        <button onclick="editSiswa('${s.id}')" class="text-xs text-indigo-500 hover:text-indigo-700 font-semibold mr-3">Edit</button>
-        <button onclick="deleteSiswa('${s.id}','${escapeHtml(s.nama)}')" class="text-xs text-red-400 hover:text-red-600 font-semibold">Hapus</button>
-      </td>
-    </tr>
-  `).join('');
-}
-
-function openSiswaModal(edit = null) {
-  document.getElementById('modalSiswaTitle').textContent = edit ? 'Edit Siswa' : 'Tambah Siswa';
-  document.getElementById('siswaEditId').value = edit ? edit.id : '';
-  document.getElementById('inputNama').value = edit ? edit.nama : '';
-  document.getElementById('inputPassword').value = edit ? edit.password : '';
-  document.getElementById('inputFoto').value = edit ? (edit.foto || '') : '';
-  document.getElementById('modalSiswa').classList.remove('hidden');
-}
-
-function closeSiswaModal() {
-  document.getElementById('modalSiswa').classList.add('hidden');
-}
-
-function editSiswa(id) {
-  const s = students.find(x => x.id == id);
-  if (s) openSiswaModal(s);
-}
-
-function deleteSiswa(id, nama) {
-  document.getElementById('deleteMsg').textContent = `Hapus siswa "${nama}" beserta semua karyanya?`;
-  document.getElementById('modalDelete').classList.remove('hidden');
-  deleteCallback = async () => {
-    const btn = document.getElementById('btnConfirmDelete');
-    btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-    const res = await apiCall('deleteStudent', { id });
-    closeDeleteModal();
-    if (res.success) {
-      showToast('Siswa berhasil dihapus');
-      loadStudentsAdmin();
-    } else {
-      showToast('Gagal menghapus: ' + (res.error || ''), 'error');
-    }
-  };
-}
-
-async function saveSiswa() {
-  const id = document.getElementById('siswaEditId').value;
-  const nama = document.getElementById('inputNama').value.trim();
-  const password = document.getElementById('inputPassword').value.trim();
-  const foto = document.getElementById('inputFoto').value.trim();
-  
-  if (!nama || !password) {
-    showToast('Nama dan password wajib diisi', 'error');
-    return;
-  }
-
-  const btn = document.getElementById('btnSaveSiswa');
-  btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-  btn.disabled = true;
-
-  const action = id ? 'updateStudent' : 'createStudent';
-  const data = id ? { id, nama, password, foto } : { nama, password, foto };
-  const res = await apiCall(action, data);
-
-  btn.innerHTML = 'Simpan';
-  btn.disabled = false;
-
-  if (res.success) {
-    closeSiswaModal();
-    showToast(id ? 'Siswa diperbarui' : 'Siswa ditambahkan');
-    loadStudentsAdmin();
-  } else {
-    showToast('Gagal menyimpan: ' + (res.error || ''), 'error');
-  }
-}
-
-// =================== ADMIN: GALERI ===================
-async function loadGaleriAdmin() {
-  document.getElementById('galeriLoading').classList.remove('hidden');
-  document.getElementById('galeriCards').innerHTML = '';
-
-  const res = await apiGet('getStudents');
-  document.getElementById('galeriLoading').classList.add('hidden');
-
-  if (res.success && res.data) {
-    students = res.data;
-    renderGaleriCards();
-  }
-}
-
-function renderGaleriCards() {
-  document.getElementById('galeriCards').innerHTML = students.map(s => `
-    <div class="card-hover bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm cursor-pointer" onclick="openKaryaView('${s.id}')">
-      <img src="${s.foto || ''}" class="student-photo" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(s.nama)}&background=1e293b&color=fff'" alt="${s.nama}">
-      <div class="p-3 text-center">
-        <p class="font-semibold text-slate-700 text-sm">${escapeHtml(s.nama)}</p>
-        <p class="text-xs text-slate-400 mt-1">Klik untuk kelola karya</p>
-      </div>
-    </div>
-  `).join('');
-}
-
-// =================== ADMIN: KARYA CRUD ===================
-async function openKaryaView(studentId) {
-  currentAdminStudent = students.find(s => s.id == studentId);
-  if (!currentAdminStudent) return;
-
-  showView('viewKarya');
-  document.getElementById('karyaStudentPhoto').src = currentAdminStudent.foto || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentAdminStudent.nama) + '&background=1e293b&color=fff';
-  document.getElementById('karyaStudentName').textContent = currentAdminStudent.nama;
-  await loadKarya();
-}
-
-async function loadKarya() {
-  document.getElementById('karyaLoading').classList.remove('hidden');
-  document.getElementById('karyaList').innerHTML = '';
-  document.getElementById('karyaEmpty').classList.add('hidden');
-
-  const res = await apiGet('getWorks', 'studentId=' + currentAdminStudent.id);
-  document.getElementById('karyaLoading').classList.add('hidden');
-
-  if (res.success) {
-    works = res.data || [];
-    renderKaryaAdmin();
-  }
-}
-
-function renderKaryaAdmin() {
-  const list = document.getElementById('karyaList');
-  const empty = document.getElementById('karyaEmpty');
-  if (!works.length) {
-    list.innerHTML = '';
-    empty.classList.remove('hidden');
-    return;
-  }
-  empty.classList.add('hidden');
-
-  list.innerHTML = works.map(w => `
-    <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
-      <img src="${w.thumbnail || ''}" alt="${w.judul}" class="thumb-img" onerror="this.src='https://placehold.co/400x200?text=No+Image'">
-      <div class="p-4">
-        <h4 class="font-bold text-slate-800 text-sm mb-1 truncate">${escapeHtml(w.judul)}</h4>
-        <p class="text-xs text-slate-400 mb-3 line-clamp-2">${escapeHtml(w.deskripsi || '')}</p>
-        <div class="flex gap-2">
-          <a href="${w.link}" target="_blank" rel="noopener noreferrer" class="text-xs text-indigo-500 hover:text-indigo-700 font-semibold">Lihat</a>
-          <button onclick="editKarya('${w.id}')" class="text-xs text-slate-500 hover:text-slate-700 font-semibold">Edit</button>
-          <button onclick="deleteKarya('${w.id}','${escapeHtml(w.judul)}')" class="text-xs text-red-400 hover:text-red-600 font-semibold">Hapus</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-  lucide.createIcons();
-}
-
-function openKaryaModal(edit = null) {
-  // Reset file pending
-  pendingThumbnailFile = null;
-  pendingWorkFile = null;
-  
-  document.getElementById('modalKaryaTitle').textContent = edit ? 'Edit Karya' : 'Tambah Karya';
-  document.getElementById('karyaEditId').value = edit ? edit.id : '';
-  document.getElementById('inputJudul').value = edit ? edit.judul : '';
-  document.getElementById('inputDeskripsi').value = edit ? (edit.deskripsi || '') : '';
-  
-  // Reset file inputs
-  document.getElementById('inputThumbnailFile').value = '';
-  document.getElementById('inputWorkFile').value = '';
-  document.getElementById('inputThumbnail').value = edit ? (edit.thumbnail || '') : '';
-  document.getElementById('inputLink').value = edit ? (edit.link || '') : '';
-  
-  document.getElementById('thumbFileName').textContent = edit && edit.thumbnail ? '✓ Sudah ada file' : 'Pilih atau drag gambar';
-  document.getElementById('workFileName').textContent = edit && edit.link ? '✓ Sudah ada file' : 'Pilih atau drag file';
-  document.getElementById('modalKarya').classList.remove('hidden');
-}
-
-function closeKaryaModal() {
-  document.getElementById('modalKarya').classList.add('hidden');
-  pendingThumbnailFile = null;
-  pendingWorkFile = null;
-}
-
-function editKarya(id) {
-  const w = works.find(x => x.id == id);
-  if (w) openKaryaModal(w);
-}
-
-function deleteKarya(id, judul) {
-  document.getElementById('deleteMsg').textContent = `Hapus karya "${judul}"?`;
-  document.getElementById('modalDelete').classList.remove('hidden');
-  deleteCallback = async () => {
-    const btn = document.getElementById('btnConfirmDelete');
-    btn.innerHTML = '<span class="spinner" style="width:18px;height:18px"></span>';
-    const res = await apiCall('deleteWork', { id });
-    closeDeleteModal();
-    if (res.success) {
-      showToast('Karya berhasil dihapus');
-      loadKarya();
-    } else {
-      showToast('Gagal menghapus: ' + (res.error || ''), 'error');
-    }
-  };
-}
-
-// =================== FILE UPLOAD ===================
-function handleThumbnailFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (!file.type.startsWith('image/')) {
-    showToast('Hanya file gambar yang diperbolehkan', 'error');
-    input.value = '';
-    return;
-  }
-  pendingThumbnailFile = file;
-  document.getElementById('thumbFileName').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
-}
-
-function handleWorkFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-  pendingWorkFile = file;
-  document.getElementById('workFileName').textContent = file.name + ' (' + (file.size / 1024 / 1024).toFixed(2) + ' MB)';
-}
-
-async function uploadToGDrive(file) {
-  if (!file) return null;
-  try {
-    // Convert file to base64
-    const base64 = await new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result.split(',')[1];
-        resolve(base64String);
-      };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-    
-    // Send as JSON
-    const payload = JSON.stringify({
-      action: 'uploadFile',
-      file: base64,
-      fileName: file.name,
-      mimeType: file.type
-    });
-    
-    const resp = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: payload
-    });
-    
-    const result = await resp.json();
-    if (result.success) {
-      return result.fileUrl;
-    } else {
-      showToast('Upload gagal: ' + (result.error || ''), 'error');
-      return null;
-    }
-  } catch (e) {
-    console.error('Upload error:', e);
-    showToast('Error upload: ' + e.message, 'error');
-    return null;
-  }
-}
-async function uploadThumbnail() {
-  const file = document.getElementById('inputThumbnailFile').files[0];
-  if (!file) {
-    showToast('Pilih file thumbnail dulu', 'error');
-    return;
-  }
-
-  document.getElementById('thumbStatus').textContent = 'Mengunggah...';
-
-  const url = await uploadToGDrive(file);
-
-  if (url) {
-    document.getElementById('inputThumbnail').value = url;
-    document.getElementById('thumbStatus').textContent = '✅ Berhasil upload';
-    showToast('Thumbnail berhasil diupload');
-  } else {
-    document.getElementById('thumbStatus').textContent = '❌ Gagal upload';
-  }
-}
-async function uploadWorkFile() {
-  const file = document.getElementById('inputWorkFile').files[0];
-  if (!file) {
-    showToast('Pilih file karya dulu', 'error');
-    return;
-  }
-
-  document.getElementById('workStatus').textContent = 'Mengunggah...';
-
-  const url = await uploadToGDrive(file);
-
-  if (url) {
-    document.getElementById('inputLink').value = url;
-    document.getElementById('workStatus').textContent = '✅ Berhasil upload';
-    showToast('File karya berhasil diupload');
-  } else {
-    document.getElementById('workStatus').textContent = '❌ Gagal upload';
-  }
-}
-
-async function saveKarya() {
-  const id = document.getElementById('karyaEditId').value;
-  const judul = document.getElementById('inputJudul').value.trim();
-  const deskripsi = document.getElementById('inputDeskripsi').value.trim();
-  const thumbnail = document.getElementById('inputThumbnail').value;
-  const link = document.getElementById('inputLink').value;
-
-  if (!judul) {
-    showToast('Judul wajib diisi', 'error');
-    return;
-  }
-
-  if (!thumbnail) {
-    showToast('Upload thumbnail dulu', 'error');
-    return;
-  }
-
-  if (!link) {
-    showToast('Upload file karya dulu', 'error');
-    return;
-  }
-
-  const action = id ? 'updateWork' : 'createWork';
-  const data = id
-    ? { id, judul, deskripsi, thumbnail, link }
-    : { studentId: currentAdminStudent.id, judul, deskripsi, thumbnail, link };
-
-  const res = await apiCall(action, data);
-
-  if (res.success) {
-    closeKaryaModal();
-    showToast('Karya berhasil disimpan');
-    loadKarya();
-  } else {
-    showToast('Gagal: ' + (res.error || ''), 'error');
-  }
-}
-
-  // Upload work file if new file selected
-  if (pendingWorkFile) {
-    showToast('Mengunggah file karya...');
-    link = await uploadToGDrive(pendingWorkFile);
-    if (!link) {
-      btn.innerHTML = 'Simpan';
-      btn.disabled = false;
-      return;
-    }
-  }
-
-  if (!thumbnail) {
-    showToast('Thumbnail wajib diisi', 'error');
-    btn.innerHTML = 'Simpan';
-    btn.disabled = false;
-    return;
-  }
-  
-  if (!link) {
-    showToast('File karya wajib diisi', 'error');
-    btn.innerHTML = 'Simpan';
-    btn.disabled = false;
-    return;
-  }
-
-  const action = id ? 'updateWork' : 'createWork';
-  const data = id
-    ? { id, judul, deskripsi, thumbnail, link }
-    : { studentId: currentAdminStudent.id, judul, deskripsi, thumbnail, link };
-  
-  const res = await apiCall(action, data);
-
-  btn.innerHTML = 'Simpan';
-  btn.disabled = false;
-
-  if (res.success) {
-    closeKaryaModal();
-    showToast(id ? 'Karya diperbarui' : 'Karya ditambahkan');
-    loadKarya();
-  } else {
-    showToast('Gagal menyimpan: ' + (res.error || ''), 'error');
-  }
-}
-
-// =================== DELETE CONFIRM ===================
-function closeDeleteModal() {
-  document.getElementById('modalDelete').classList.add('hidden');
-  document.getElementById('btnConfirmDelete').innerHTML = 'Hapus';
-  deleteCallback = null;
-}
-
-function confirmDelete() {
-  if (deleteCallback) deleteCallback();
-}
-
-// =================== UTILITIES ===================
-function escapeHtml(str) {
-  if (!str) return '';
-  return str.replace(/[&<>]/g, function(m) {
-    if (m === '&') return '&amp;';
-    if (m === '<') return '&lt;';
-    if (m === '>') return '&gt;';
-    return m;
-  });
-}
-
-// =================== INIT ===================
-loadStudents();
-lucide.createIcons();
-</script>
+    <script>
+        const API_URL = "https://script.google.com/macros/s/AKfycbykadPXHxcc14mCqY42JfkoNVYDzWYSJcup9KOlEy8iRugs1Baxwaw-XOnwea4H7CVpLw/exec";
+        
+        let allStudents = [];
+        let allComments = []; 
+        let currentAdminStudentId = null;
+        let selectedWorkId = null;
+
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`view-${viewId}`).classList.remove('hidden');
+            if (viewId === 'galeri' || viewId === 'admin-dashboard') refreshData();
+        }
+
+        function showLoading(show) { document.getElementById('loadingOverlay').classList.toggle('hidden', !show); }
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+        function setBtnLoading(btnId, isLoading, text) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            if (isLoading) {
+                btn.disabled = true;
+                btn.innerHTML = `<div class="spinner-small"></div> <span>Memproses...</span>`;
+            } else {
+                btn.disabled = false;
+                btn.innerHTML = text;
+            }
+        }
+
+        function getFileIcon(url) {
+            const ext = (url || '').split('.').pop().toLowerCase().split('?')[0];
+            const isImage = ['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext) || url.startsWith('data:image');
+            if (isImage) return `<img src="${url}" class="w-full h-full object-cover">`;
+            return `<div class="w-full h-full file-icon-placeholder text-5xl"><i class="fas fa-file-alt"></i></div>`;
+        }
+
+        async function fetchAPI(payload) {
+            try {
+                const response = await fetch(API_URL, { method: 'POST', body: JSON.stringify(payload) });
+                return await response.json();
+            } catch (error) {
+                console.error(error);
+                return { success: false };
+            }
+        }
+
+        async function refreshData() {
+            showLoading(true);
+            const result = await fetchAPI({ action: 'getInitialData' });
+            showLoading(false);
+            if (result && result.success) {
+                allStudents = result.data;
+                allComments = result.comments || []; 
+                renderDropdown();
+                renderAdminStudents();
+            } else {
+                allStudents = [];
+                allComments = [];
+                renderDropdown();
+                renderAdminStudents();
+            }
+        }
+
+        function renderDropdown() {
+            const drop = document.getElementById('studentDropdown');
+            drop.innerHTML = '<option value="">-- Siapa Namamu? --</option>';
+            allStudents.forEach(s => drop.innerHTML += `<option value="${s.id}">${s.nama}</option>`);
+        }
+
+        // --- FITUR WALI MURID ---
+
+        function loadStudentWorks() {
+            const sid = document.getElementById('studentDropdown').value;
+            const pass = document.getElementById('studentPassword').value;
+            const container = document.getElementById('worksContainer');
+            const student = allStudents.find(s => s.id === sid);
+            
+            if (!student || student.pass !== pass) return alert("Sandi rahasia salah, coba lagi ya!");
+
+            container.innerHTML = '';
+            if (student.karya.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-24">
+                        <div class="text-[120px] mb-8 opacity-40">✨</div>
+                        <p class="text-3xl font-black text-slate-300">Belum ada karya yang diunggah.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            student.karya.forEach(work => {
+                container.innerHTML += `
+                    <div class="kids-card overflow-hidden flex flex-col group cursor-pointer" onclick="openKomentarModal('${student.id}', '${work.id}')">
+                        <div class="h-64 relative bg-slate-50">${getFileIcon(work.thumb || work.link)}</div>
+                        <div class="p-8">
+                            <h4 class="text-2xl font-black text-slate-800 truncate">${work.judul}</h4>
+                            <p class="text-pink-500 font-bold mt-2">Beri pesan penyemangat ✨</p>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openKomentarModal(sid, kid) {
+            const student = allStudents.find(s => s.id === sid);
+            const work = student.karya.find(k => k.id === kid);
+            
+            selectedWorkId = kid;
+            currentAdminStudentId = sid;
+            
+            document.getElementById('detailKaryaMedia').innerHTML = getFileIcon(work.link);
+            document.getElementById('detailKaryaTitle').textContent = work.judul;
+            document.getElementById('detailKaryaSiswa').textContent = `Hasil Belajar: ${student.nama}`;
+            document.getElementById('inputKomentar').value = '';
+            document.getElementById('modalViewKarya').classList.remove('hidden');
+        }
+
+        async function submitKomentar() {
+            const text = document.getElementById('inputKomentar').value;
+            if (!text) return alert("Tuliskan pesan penyemangat dulu ya!");
+
+            setBtnLoading('btnKirimKomentar', true);
+            const res = await fetchAPI({
+                action: 'addComment',
+                studentId: currentAdminStudentId,
+                workId: selectedWorkId,
+                comment: text
+            });
+            setBtnLoading('btnKirimKomentar', false, `<span>Kirim Komentar</span> <i class="fas fa-paper-plane"></i>`);
+
+            if (res.success) {
+                alert("Pesan terkirim! Guru dan si kecil akan sangat senang membacanya. ❤️");
+                closeModal('modalViewKarya');
+            } else {
+                alert("Maaf, ada kendala saat mengirim pesan. Coba lagi ya!");
+            }
+        }
+
+        // --- FITUR GURU ---
+
+        function openRekapKomentar() {
+            const container = document.getElementById('rekapContainer');
+            container.innerHTML = '';
+            
+            if (allComments.length === 0) {
+                container.innerHTML = '<p class="text-center py-12 text-slate-400 font-bold">Belum ada komentar dari wali murid.</p>';
+            } else {
+                allComments.forEach(c => {
+                    container.innerHTML += `
+                        <div class="bg-white p-6 rounded-3xl border-4 border-slate-50 shadow-sm flex items-start gap-4 hover:border-pink-100 transition-colors">
+                            <div class="bg-pink-100 p-4 rounded-full text-pink-500"><i class="fas fa-heart"></i></div>
+                            <div class="flex-1">
+                                <p class="font-black text-slate-800 text-lg">"${c.text}"</p>
+                                <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-sm">
+                                    <span class="font-bold text-blue-500">Oleh Wali ${c.studentName}</span>
+                                    <span class="text-slate-300">|</span>
+                                    <span class="font-bold text-orange-500">${c.workTitle}</span>
+                                    <span class="text-slate-300 ml-auto">${c.date}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            document.getElementById('modalRekap').classList.remove('hidden');
+        }
+
+        async function handleLogin(e) {
+            e.preventDefault();
+            showLoading(true);
+            const res = await fetchAPI({ 
+                action: 'loginAdmin', 
+                username: document.getElementById('adminUser').value, 
+                password: document.getElementById('adminPass').value 
+            });
+            showLoading(false);
+            if (res.success) switchView('admin-dashboard');
+            else alert("Username atau sandi salah!");
+        }
+
+        function renderAdminStudents() {
+            const list = document.getElementById('adminStudentList');
+            list.innerHTML = '';
+            allStudents.forEach(s => {
+                list.innerHTML += `
+                    <div class="bg-white p-6 rounded-[2.5rem] shadow-lg border-4 border-slate-50 flex items-center gap-5">
+                        <img src="${s.foto || 'https://via.placeholder.com/150?text=Siswa'}" class="w-20 h-20 rounded-3xl object-cover bg-slate-100">
+                        <div class="flex-1 overflow-hidden">
+                            <h4 class="font-black text-xl truncate text-slate-800">${s.nama}</h4>
+                            <div class="flex gap-2 mt-3">
+                                <button onclick="openManageKarya('${s.id}')" class="flex-1 bg-blue-500 text-white py-2.5 rounded-2xl text-xs font-black hover:bg-blue-600 transition-colors">📂 Karya</button>
+                                <button onclick="openEditSiswa('${s.id}')" class="px-4 bg-slate-100 text-slate-400 py-2.5 rounded-2xl text-xs font-black hover:bg-slate-200 transition-colors">Ubah</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // --- MANAGE SISWA & KARYA ---
+
+        function openAddStudentModal() {
+            document.getElementById('modalSiswaTitle').textContent = "Tambah Siswa";
+            ['editStudentId', 'inputSiswaNama', 'inputSiswaFoto', 'inputSiswaPass'].forEach(id => document.getElementById(id).value = "");
+            document.getElementById('modalSiswa').classList.remove('hidden');
+        }
+
+        function openEditSiswa(id) {
+            const s = allStudents.find(x => x.id === id);
+            document.getElementById('modalSiswaTitle').textContent = "Ubah Data Siswa";
+            document.getElementById('editStudentId').value = s.id;
+            document.getElementById('inputSiswaNama').value = s.nama;
+            document.getElementById('inputSiswaFoto').value = s.foto;
+            document.getElementById('inputSiswaPass').value = s.pass;
+            document.getElementById('modalSiswa').classList.remove('hidden');
+        }
+
+        async function saveStudentData() {
+            const id = document.getElementById('editStudentId').value;
+            const nama = document.getElementById('inputSiswaNama').value;
+            if(!nama) return alert("Nama tidak boleh kosong!");
+
+            showLoading(true);
+            const payload = {
+                action: id ? 'updateStudent' : 'addStudent',
+                id: id || 'S' + Date.now(),
+                nama: nama,
+                foto: document.getElementById('inputSiswaFoto').value,
+                pass: document.getElementById('inputSiswaPass').value || "123"
+            };
+            const res = await fetchAPI(payload);
+            if (res.success) { closeModal('modalSiswa'); refreshData(); }
+            else { showLoading(false); alert("Gagal menyimpan data."); }
+        }
+
+        function openManageKarya(id) {
+            currentAdminStudentId = id;
+            const s = allStudents.find(x => x.id === id);
+            document.getElementById('modalKaryaTitle').textContent = `Karya & Tugas: ${s.nama}`;
+            renderAdminWorks(s.karya);
+            document.getElementById('modalKarya').classList.remove('hidden');
+        }
+
+        function renderAdminWorks(karya) {
+            const grid = document.getElementById('adminWorksGrid');
+            grid.innerHTML = (karya || []).map(w => `
+                <div class="rounded-2xl overflow-hidden border-2 border-slate-100 bg-white group relative">
+                    <div class="h-28 bg-slate-50">${getFileIcon(w.thumb || w.link)}</div>
+                    <div class="p-3">
+                        <p class="text-xs font-black truncate text-slate-700">${w.judul}</p>
+                        <p class="text-[10px] text-slate-400 uppercase font-bold mt-1">${w.tipe || 'File'}</p>
+                    </div>
+                </div>
+            `).join('') || '<div class="col-span-full py-12 text-center text-slate-300 font-bold">Belum ada berkas.</div>';
+        }
+
+        async function uploadAndSaveWork() {
+            const title = document.getElementById('newWorkTitle').value;
+            const file = document.getElementById('newWorkFile').files[0];
+            if (!title || !file) return alert("Lengkapi judul dan pilih berkasnya dulu ya!");
+
+            setBtnLoading('btnSimpanKarya', true);
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = async () => {
+                const base64 = reader.result.split(',')[1];
+                const res = await fetchAPI({
+                    action: 'uploadKarya',
+                    studentId: currentAdminStudentId,
+                    judul: title,
+                    fileData: base64,
+                    fileName: file.name,
+                    isImage: file.type.startsWith('image/')
+                });
+                setBtnLoading('btnSimpanKarya', false, `<span>Simpan Hasil Belajar</span> <i class="fas fa-cloud-upload-alt"></i>`);
+                if (res.success) { 
+                    alert("Yey! Berhasil menyimpan hasil belajar.");
+                    document.getElementById('newWorkTitle').value = "";
+                    document.getElementById('newWorkFile').value = "";
+                    refreshData(); 
+                    // Refresh tampilan list karya di modal yang terbuka
+                    setTimeout(() => {
+                        const s = allStudents.find(x => x.id === currentAdminStudentId);
+                        if(s) renderAdminWorks(s.karya);
+                    }, 1000);
+                } else {
+                    alert("Waduh, gagal mengunggah. Coba lagi atau cek koneksi ya.");
+                }
+            };
+        }
+
+        window.onload = refreshData;
+    </script>
 </body>
 </html>
