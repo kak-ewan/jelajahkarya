@@ -1,169 +1,257 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>Jejak Karyaku 🎨</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<meta charset="UTF-8" />
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Jejak Karyaku 🎨</title>
 
-    <style>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-        * {
-            font-family: 'Fredoka', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-overflow-scrolling: touch;
-            box-sizing: border-box;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        body {
-            background: #fff9fb;
-            color: #334155;
-            overflow-x: hidden;
-        }
+<style>
 
-        .kids-btn {
-            border-radius: 20px;
-            font-weight: 700;
-            transition: .2s;
-        }
+*{
+    font-family:'Fredoka',sans-serif;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
 
-        .kids-btn:active {
-            transform: scale(.96);
-        }
+body{
+    background:#fff9fb;
+    color:#334155;
+    overflow-x:hidden;
+}
 
-        .btn-primary {
-            background: #ff6b9d;
-            color: white;
-        }
+.card{
+    background:white;
+    border-radius:24px;
+    box-shadow:0 8px 30px rgba(0,0,0,.06);
+}
 
-        .btn-secondary {
-            background: #60a5fa;
-            color: white;
-        }
+.kids-btn{
+    border-radius:18px;
+    font-weight:700;
+    transition:.2s;
+}
 
-        .card {
-            background: white;
-            border-radius: 24px;
-            box-shadow: 0 6px 24px rgba(0,0,0,.06);
-        }
+.kids-btn:active{
+    transform:scale(.96);
+}
 
-        .gallery-slider {
-            display: flex;
-            overflow-x: auto;
-            gap: 1rem;
-            scroll-snap-type: x mandatory;
-            padding-bottom: 1rem;
-        }
+.btn-primary{
+    background:#ff6b9d;
+    color:white;
+}
 
-        .gallery-slider::-webkit-scrollbar {
-            display: none;
-        }
+.btn-secondary{
+    background:#60a5fa;
+    color:white;
+}
 
-        .gallery-card {
-            min-width: 100%;
-            scroll-snap-align: start;
-        }
+.gallery-slider{
+    display:flex;
+    overflow-x:auto;
+    gap:1rem;
+    scroll-snap-type:x mandatory;
+    padding-bottom:1rem;
+}
 
-        @media(min-width:768px){
-            .gallery-card {
-                min-width: calc(50% - .5rem);
-            }
-        }
+.gallery-slider::-webkit-scrollbar{
+    display:none;
+}
 
-        .modal {
-            background: rgba(0,0,0,.55);
-            backdrop-filter: blur(8px);
-        }
+.gallery-card{
+    min-width:100%;
+    scroll-snap-align:start;
+}
 
-    </style>
+@media(min-width:768px){
+    .gallery-card{
+        min-width:calc(50% - .5rem);
+    }
+}
+
+.modal{
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(8px);
+}
+
+</style>
+
 </head>
+
 <body class="min-h-screen pb-10">
 
-<div id="loading" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-white/90">
+<!-- LOADING -->
+
+<div id="loading"
+class="hidden fixed inset-0 z-50 flex items-center justify-center bg-white/90">
+
     <div class="text-center">
+
         <div class="animate-spin w-16 h-16 border-4 border-pink-400 border-t-transparent rounded-full mx-auto"></div>
-        <p class="mt-4 font-bold text-pink-500">Memuat...</p>
+
+        <p class="mt-4 font-black text-pink-500">
+            Memuat...
+        </p>
+
     </div>
+
 </div>
 
+<!-- NAVBAR -->
+
 <nav class="sticky top-0 z-40 p-3">
+
     <div class="max-w-6xl mx-auto bg-white rounded-3xl shadow-lg p-4 flex justify-between items-center">
-        <h1 class="text-2xl font-black text-pink-500">JejakKaryaku 🎨</h1>
+
+        <h1 class="text-2xl font-black text-pink-500">
+            JejakKaryaku 🎨
+        </h1>
 
         <div class="flex gap-2">
-            <button onclick="showView('home')" class="px-4 py-2 rounded-xl hover:bg-pink-50 font-bold">Beranda</button>
-            <button id="admin-nav-btn" onclick="openLogin()" class="kids-btn btn-secondary px-5 py-2">Guru 🍎</button>
+
+            <button onclick="showView('home')"
+            class="px-4 py-2 rounded-xl hover:bg-pink-50 font-bold">
+
+                Beranda
+
+            </button>
+
+            <button id="admin-nav-btn"
+                onclick="openLogin()"
+                class="relative kids-btn btn-secondary px-5 py-2">
+
+                <span id="admin-btn-label">
+                    Guru 🍎
+                </span>
+
+                <span id="notif-floating"
+                class="hidden absolute -top-2 -right-2 bg-red-500 text-white text-[10px] min-w-[22px] h-[22px] px-1 rounded-full flex items-center justify-center font-black border-2 border-white">
+
+                    0
+
+                </span>
+
+            </button>
+
         </div>
+
     </div>
+
 </nav>
+
+<!-- MAIN -->
 
 <main class="max-w-6xl mx-auto px-4">
 
-<section id="view-home" class="view space-y-8">
+<!-- HOME -->
+
+<section id="view-home"
+class="view space-y-8">
 
     <div class="text-center py-8">
+
         <h2 class="text-5xl font-black text-slate-800">
             Galeri Teman Hebat 🌈
         </h2>
 
         <p class="text-slate-400 mt-2 font-bold">
-            Klik foto untuk melihat karya
+            Swipe untuk melihat karya
         </p>
+
     </div>
 
-    <div id="student-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+    <div id="student-grid"
+    class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
 
 </section>
 
-<section id="view-gallery" class="view hidden space-y-5">
+<!-- GALLERY -->
+
+<section id="view-gallery"
+class="view hidden space-y-5">
 
     <button onclick="showView('home')"
-        class="kids-btn bg-white px-5 py-3 rounded-2xl shadow font-bold">
+    class="kids-btn bg-white px-5 py-3 rounded-2xl shadow font-bold">
+
         ← Kembali
+
     </button>
 
-    <div id="gallery-header" class="card p-6"></div>
+    <div id="gallery-header"
+    class="card p-6"></div>
 
-    <div id="gallery-grid" class="gallery-slider"></div>
+    <div id="gallery-grid"
+    class="gallery-slider"></div>
 
 </section>
 
-<section id="view-admin" class="view hidden space-y-5">
+<!-- ADMIN -->
+
+<section id="view-admin"
+class="view hidden space-y-5">
 
     <div class="card p-5 flex justify-between items-center">
-        <h2 class="text-3xl font-black">Dashboard Guru 🍏</h2>
+
+        <h2 class="text-3xl font-black">
+            Dashboard Guru 🍏
+        </h2>
 
         <button onclick="logout()"
-            class="text-red-400 font-bold">
+        class="text-red-400 font-bold">
+
             Keluar
+
         </button>
+
     </div>
 
     <div class="grid lg:grid-cols-3 gap-5">
 
+        <!-- SISWA -->
+
         <div class="space-y-4">
 
             <button onclick="showModal('modal-student')"
-                class="kids-btn btn-primary w-full py-4 text-lg">
+            class="kids-btn btn-primary w-full py-4 text-lg">
+
                 + Tambah Murid
+
             </button>
 
-            <div id="admin-student-list" class="space-y-3"></div>
+            <div id="admin-student-list"
+            class="space-y-3"></div>
 
         </div>
 
+        <!-- INBOX -->
+
         <div class="lg:col-span-2 card p-6">
 
-            <h3 class="text-2xl font-black mb-5">
-                Pesan Orang Tua 💌
-            </h3>
+            <div class="flex items-center justify-between mb-4">
 
-            <div id="admin-comment-log" class="space-y-4"></div>
+                <h3 class="text-2xl font-black">
+                    Inbox Orang Tua 💌
+                </h3>
+
+                <div id="notif-badge"
+                class="bg-red-500 text-white px-3 py-1 rounded-full text-sm font-black">
+
+                    0 Baru
+
+                </div>
+
+            </div>
+
+            <div id="admin-comment-log"
+            class="space-y-4"></div>
 
         </div>
 
@@ -173,7 +261,10 @@
 
 </main>
 
-<div id="modal-login" class="hidden fixed inset-0 modal z-50 flex items-center justify-center p-4">
+<!-- LOGIN MODAL -->
+
+<div id="modal-login"
+class="hidden fixed inset-0 modal z-50 flex items-center justify-center p-4">
 
     <div class="bg-white rounded-3xl p-7 w-full max-w-sm">
 
@@ -184,105 +275,20 @@
         <div class="space-y-3">
 
             <input id="login-user"
-                type="text"
-                placeholder="Username"
-                class="w-full p-4 rounded-2xl bg-slate-100 outline-none">
+            type="text"
+            placeholder="Username"
+            class="w-full p-4 rounded-2xl bg-slate-100 outline-none">
 
             <input id="login-pass"
-                type="password"
-                placeholder="Password"
-                class="w-full p-4 rounded-2xl bg-slate-100 outline-none">
+            type="password"
+            placeholder="Password"
+            class="w-full p-4 rounded-2xl bg-slate-100 outline-none">
 
             <button onclick="handleLogin()"
-                class="kids-btn btn-secondary w-full py-4 text-lg">
+            class="kids-btn btn-secondary w-full py-4 text-lg">
+
                 Login
-            </button>
 
-            <button onclick="hideModal('modal-login')"
-                class="w-full text-slate-400 font-bold">
-                Tutup
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-<div id="modal-upload" class="hidden fixed inset-0 modal z-50 flex items-center justify-center p-4">
-
-    <div class="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-y-auto p-6">
-
-        <div class="flex justify-between items-center mb-5">
-
-            <h3 id="upload-modal-title" class="text-2xl font-black">
-                Kelola Karya
-            </h3>
-
-            <button onclick="hideModal('modal-upload')" class="text-2xl text-slate-400">
-                ✖
-            </button>
-
-        </div>
-
-        <div class="space-y-4 bg-pink-50 p-5 rounded-3xl">
-
-            <input id="up-judul"
-                type="text"
-                placeholder="Judul karya"
-                class="w-full p-4 rounded-2xl outline-none">
-
-            <input id="up-file"
-                type="file"
-                accept="image/*"
-                class="w-full">
-
-            <img id="preview-upload" class="hidden w-full rounded-2xl shadow-md">
-
-            <button onclick="processUpload()"
-                class="kids-btn btn-primary w-full py-4">
-                Upload 🚀
-            </button>
-
-        </div>
-
-        <div id="admin-work-list" class="space-y-3 mt-5"></div>
-
-    </div>
-
-</div>
-
-<div id="modal-student" class="hidden fixed inset-0 modal z-50 flex items-center justify-center p-4">
-
-    <div class="bg-white rounded-3xl p-6 w-full max-w-sm">
-
-        <h3 class="text-2xl font-black mb-5">Tambah Murid 👶</h3>
-
-        <div class="space-y-3">
-
-            <input id="st-nama"
-                type="text"
-                placeholder="Nama"
-                class="w-full p-4 rounded-2xl bg-slate-100 outline-none">
-
-            <input id="st-pass"
-                type="text"
-                placeholder="PIN"
-                class="w-full p-4 rounded-2xl bg-slate-100 outline-none">
-
-            <input id="st-foto"
-                type="text"
-                placeholder="URL Foto"
-                class="w-full p-4 rounded-2xl bg-slate-100 outline-none">
-
-            <button onclick="saveStudent()"
-                class="kids-btn btn-primary w-full py-4">
-                Simpan
-            </button>
-
-            <button onclick="hideModal('modal-student')"
-                class="w-full text-slate-400 font-bold">
-                Tutup
             </button>
 
         </div>
@@ -293,36 +299,54 @@
 
 <script>
 
-const API_URL = 'https://script.google.com/macros/s/AKfycbyqAxfoUYm9KpUiq90Y9hjYNNzJhOSjCfxmEEN9bPNomSzq2XMiLAfw5GgtEU3TPOz1/exec';
+const API_URL =
+'https://script.google.com/macros/s/AKfycbyqAxfoUYm9KpUiq90Y9hjYNNzJhOSjCfxmEEN9bPNomSzq2XMiLAfw5GgtEU3TPOz1/exec';
 
 let appData = {
-    students: []
+    students:[]
 };
 
 let isAdminLoggedIn = false;
 let currentStudentId = null;
 
 function toggleLoading(v){
-    document.getElementById('loading').classList.toggle('hidden', !v);
+
+    document
+    .getElementById('loading')
+    .classList.toggle('hidden', !v);
+
 }
 
 function showModal(id){
-    document.getElementById(id).classList.remove('hidden');
+
+    document
+    .getElementById(id)
+    .classList.remove('hidden');
+
 }
 
 function hideModal(id){
-    document.getElementById(id).classList.add('hidden');
+
+    document
+    .getElementById(id)
+    .classList.add('hidden');
+
 }
 
 function showView(id){
 
-    document.querySelectorAll('.view').forEach(v=>{
-        v.classList.add('hidden');
+    document.querySelectorAll('.view')
+    .forEach(v=>v.classList.add('hidden'));
+
+    document
+    .getElementById('view-'+id)
+    .classList.remove('hidden');
+
+    window.scrollTo({
+        top:0,
+        behavior:'smooth'
     });
 
-    document.getElementById('view-'+id).classList.remove('hidden');
-
-    window.scrollTo({top:0, behavior:'smooth'});
 }
 
 async function fetchData(){
@@ -331,9 +355,9 @@ async function fetchData(){
 
     try {
 
-        const res = await fetch(API_URL, {
+        const res = await fetch(API_URL,{
             method:'POST',
-            body: JSON.stringify({
+            body:JSON.stringify({
                 action:'getInitialData'
             })
         });
@@ -342,25 +366,33 @@ async function fetchData(){
 
         if(json.success){
 
-            appData.students = json.data || [];
+            appData.students =
+                json.data || [];
 
             renderHome();
 
             if(isAdminLoggedIn){
+
                 renderAdmin();
+
             }
+
         }
 
     } catch(err){
+
         console.log(err);
+
     }
 
     toggleLoading(false);
+
 }
 
 function renderHome(){
 
-    const grid = document.getElementById('student-grid');
+    const grid =
+        document.getElementById('student-grid');
 
     if(!appData.students.length){
 
@@ -373,43 +405,47 @@ function renderHome(){
         return;
     }
 
-    grid.innerHTML = appData.students.map(s=>`
+    grid.innerHTML =
+    appData.students.map(s=>`
 
         <div onclick="renderGallery('${s.id}')"
-            class="card p-4 text-center cursor-pointer">
+        class="card p-4 text-center cursor-pointer">
 
-            <img loading="lazy" decoding="async"
-                src="${s.foto || 'https://ui-avatars.com/api/?name='+encodeURIComponent(s.nama)}"
-                class="w-full aspect-square rounded-2xl object-cover mb-3">
+            <img loading="lazy"
+            src="${s.foto || 'https://ui-avatars.com/api/?name='+encodeURIComponent(s.nama)}"
+            class="w-full aspect-square rounded-2xl object-cover mb-3">
 
-            <h3 class="font-black truncate">${s.nama}</h3>
+            <h3 class="font-black truncate">
+                ${s.nama}
+            </h3>
 
             <p class="text-xs text-slate-400 mt-1 font-bold">
-                ${s.karya?.length || 0} karya
+                ${s.karya.length} karya
             </p>
 
         </div>
 
     `).join('');
+
 }
 
 function renderGallery(id){
 
     currentStudentId = id;
 
-    const s = appData.students.find(x=>x.id===id);
+    const s =
+        appData.students.find(x=>x.id===id);
 
     if(!s) return;
 
     document.getElementById('gallery-header').innerHTML = `
-
         <div class="flex items-center gap-5">
 
-            <img loading="lazy" decoding="async"
-                src="${s.foto || 'https://ui-avatars.com/api/?name='+s.nama}"
-                class="w-28 h-28 rounded-3xl object-cover shadow-lg">
+            <img src="${s.foto || 'https://ui-avatars.com/api/?name='+s.nama}"
+            class="w-28 h-28 rounded-3xl object-cover shadow-lg">
 
             <div>
+
                 <h2 class="text-4xl font-black text-pink-500">
                     ${s.nama}
                 </h2>
@@ -423,90 +459,25 @@ function renderGallery(id){
         </div>
     `;
 
-    const grid = document.getElementById('gallery-grid');
-
-    if(!s.karya.length){
-
-        grid.innerHTML = `
-            <div class="card p-10 text-center text-slate-400 font-bold">
-                Belum ada karya
-            </div>
-        `;
-
-        showView('gallery');
-
-        return;
-    }
-
-    grid.innerHTML = s.karya.map(k=>`
+    document.getElementById('gallery-grid').innerHTML =
+    s.karya.map(k=>`
 
         <div class="gallery-card card overflow-hidden">
 
-            <img loading="lazy" decoding="async"
-                src="${k.thumb || k.link}"
-                class="w-full aspect-[4/3] object-cover">
+            <img src="${k.thumb}"
+            class="w-full aspect-[4/3] object-cover">
 
             <div class="p-5">
 
                 <div class="flex justify-between items-start gap-3 mb-3">
 
-                    <h3 class="text-xl font-black text-slate-700">
+                    <h3 class="text-xl font-black">
                         ${k.judul}
                     </h3>
 
-                    <span class="text-xs text-slate-400 font-bold whitespace-nowrap">
+                    <span class="text-xs text-slate-400 font-bold">
                         ${new Date(k.date).toLocaleDateString('id-ID')}
                     </span>
-
-                </div>
-
-                <div class="space-y-3 max-h-[250px] overflow-y-auto">
-
-                    ${(s.percakapan || []).filter(p=>p.workId===k.id).map(c=>`
-
-                        <div class="bg-slate-50 p-3 rounded-2xl">
-
-                            <p class="text-xs font-black text-blue-500 mb-1">
-                                Orang Tua
-                            </p>
-
-                            <p class="font-medium text-sm">
-                                ${c.pesanWali}
-                            </p>
-
-                            ${c.balasanGuru ? `
-
-                                <div class="bg-green-100 rounded-2xl p-3 mt-3">
-
-                                    <p class="text-xs font-black text-green-700 mb-1">
-                                        Guru
-                                    </p>
-
-                                    <p class="text-sm font-medium text-green-900">
-                                        ${c.balasanGuru}
-                                    </p>
-
-                                </div>
-
-                            `:''}
-
-                        </div>
-
-                    `).join('')}
-
-                </div>
-
-                <div class="flex gap-2 mt-4">
-
-                    <input id="input-chat-${k.id}"
-                        type="text"
-                        placeholder="Tulis komentar..."
-                        class="flex-1 p-3 rounded-xl border outline-none text-sm">
-
-                    <button onclick="sendComment('${k.id}')"
-                        class="kids-btn btn-primary px-5">
-                        ➤
-                    </button>
 
                 </div>
 
@@ -517,22 +488,29 @@ function renderGallery(id){
     `).join('');
 
     showView('gallery');
+
 }
 
 function openLogin(){
 
     if(isAdminLoggedIn){
+
         showView('admin');
         return;
+
     }
 
     showModal('modal-login');
+
 }
 
 async function handleLogin(){
 
-    const u = document.getElementById('login-user').value;
-    const p = document.getElementById('login-pass').value;
+    const u =
+        document.getElementById('login-user').value;
+
+    const p =
+        document.getElementById('login-pass').value;
 
     if(u==='admin' && p==='guru123'){
 
@@ -540,31 +518,47 @@ async function handleLogin(){
 
         hideModal('modal-login');
 
-        document.getElementById('admin-nav-btn').innerText = 'Dashboard 🏠';
+        document.getElementById('admin-btn-label')
+        .innerText = 'Dashboard 🏠';
 
         renderAdmin();
 
         showView('admin');
 
     } else {
+
         alert('Login salah');
+
     }
+
 }
 
 function logout(){
 
     isAdminLoggedIn = false;
 
-    document.getElementById('admin-nav-btn').innerText = 'Guru 🍎';
+    document.getElementById('admin-btn-label')
+    .innerText = 'Guru 🍎';
 
     showView('home');
+
 }
 
 function renderAdmin(){
 
-    const list = document.getElementById('admin-student-list');
+    renderStudentList();
 
-    list.innerHTML = appData.students.map(s=>`
+    renderCommentInbox();
+
+}
+
+function renderStudentList(){
+
+    const wrap =
+        document.getElementById('admin-student-list');
+
+    wrap.innerHTML =
+    appData.students.map(s=>`
 
         <div class="card p-4">
 
@@ -572,423 +566,126 @@ function renderAdmin(){
 
                 <div class="flex items-center gap-3">
 
-                    <img loading="lazy" decoding="async"
-                        src="${s.foto || 'https://ui-avatars.com/api/?name='+s.nama}"
-                        class="w-14 h-14 rounded-2xl object-cover">
+                    <img src="${s.foto || 'https://ui-avatars.com/api/?name='+s.nama}"
+                    class="w-14 h-14 rounded-2xl object-cover">
 
                     <div>
-                        <p class="font-black">${s.nama}</p>
+
+                        <p class="font-black">
+                            ${s.nama}
+                        </p>
+
                         <p class="text-xs text-slate-400 font-bold">
                             ${s.karya.length} karya
                         </p>
+
                     </div>
 
                 </div>
 
-                <div class="flex gap-2">
-
-                    <button onclick="editStudent('${s.id}')"
-                        class="w-10 h-10 rounded-xl bg-yellow-100 text-yellow-600">
-                        <i class="fas fa-pen"></i>
-                    </button>
-
-                    <button onclick="manageKarya('${s.id}')"
-                        class="w-10 h-10 rounded-xl bg-blue-100 text-blue-600">
-                        <i class="fas fa-images"></i>
-                    </button>
-
-                    <button onclick="deleteStudent('${s.id}')"
-                        class="w-10 h-10 rounded-xl bg-red-100 text-red-500">
-                        <i class="fas fa-trash"></i>
-                    </button>
-
-                    <button onclick="exportPortfolio('${s.id}')"
-                        class="w-10 h-10 rounded-xl bg-green-100 text-green-600">
-                        <i class="fas fa-file-pdf"></i>
-                    </button>
-
-                </div>
-
             </div>
 
         </div>
 
     `).join('');
+
 }
 
-function manageKarya(id){
+function renderCommentInbox(){
 
-    currentStudentId = id;
+    const wrap =
+        document.getElementById('admin-comment-log');
 
-    const s = appData.students.find(x=>x.id===id);
+    let allComments = [];
 
-    document.getElementById('upload-modal-title').innerText = `Koleksi ${s.nama}`;
+    appData.students.forEach(s=>{
 
-    const list = document.getElementById('admin-work-list');
+        (s.percakapan || []).forEach(c=>{
 
-    list.innerHTML = s.karya.map(k=>`
+            const karya =
+                s.karya.find(k=>k.id===c.workId);
 
-        <div class="flex justify-between items-center bg-slate-50 p-3 rounded-2xl">
+            allComments.push({
+                ...c,
+                student:s,
+                karya
+            });
 
-            <div class="flex items-center gap-3">
+        });
 
-                <img loading="lazy" decoding="async"
-                    src="${k.thumb}"
-                    class="w-14 h-14 rounded-xl object-cover">
+    });
+
+    const unreplyCount =
+        allComments.filter(x=>!x.balasanGuru).length;
+
+    document.getElementById('notif-badge')
+    .innerText = `${unreplyCount} Baru`;
+
+    const floating =
+        document.getElementById('notif-floating');
+
+    if(unreplyCount > 0){
+
+        floating.classList.remove('hidden');
+        floating.innerText = unreplyCount;
+
+    } else {
+
+        floating.classList.add('hidden');
+
+    }
+
+    if(!allComments.length){
+
+        wrap.innerHTML = `
+            <div class="bg-slate-50 rounded-3xl p-10 text-center text-slate-400 font-bold">
+                Belum ada pesan
+            </div>
+        `;
+
+        return;
+    }
+
+    wrap.innerHTML =
+    allComments.map(c=>`
+
+        <div class="bg-slate-50 rounded-3xl p-4">
+
+            <div class="flex items-center gap-3 mb-4">
+
+                <img src="${c.student.foto || 'https://ui-avatars.com/api/?name='+c.student.nama}"
+                class="w-14 h-14 rounded-2xl object-cover">
 
                 <div>
-                    <p class="font-black text-sm">${k.judul}</p>
+
+                    <h4 class="font-black text-lg">
+                        ${c.student.nama}
+                    </h4>
+
+                    <p class="text-sm text-slate-400 font-bold">
+                        ${c.karya?.judul || ''}
+                    </p>
+
                 </div>
 
             </div>
 
-            <button onclick="deleteKarya('${k.id}')"
-                class="text-red-400 text-xl">
-                🗑️
-            </button>
+            <div class="bg-white rounded-2xl p-4">
+
+                <p class="text-xs font-black text-blue-500 mb-1">
+                    Pesan Orang Tua
+                </p>
+
+                <p class="font-medium">
+                    ${c.pesanWali}
+                </p>
+
+            </div>
 
         </div>
 
     `).join('');
 
-    showModal('modal-upload');
-}
-
-document.getElementById('up-file').addEventListener('change', function(e){
-
-    const file = e.target.files[0];
-
-    if(!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = function(ev){
-
-        const img = document.getElementById('preview-upload');
-
-        img.src = ev.target.result;
-
-        img.classList.remove('hidden');
-    };
-
-    reader.readAsDataURL(file);
-});
-
-async function processUpload(){
-
-    const judul = document.getElementById('up-judul').value.trim();
-    const fileInput = document.getElementById('up-file');
-
-    if(!judul || !fileInput.files[0]){
-        return alert('Lengkapi data upload');
-    }
-
-    toggleLoading(true);
-
-    const file = fileInput.files[0];
-
-    const reader = new FileReader();
-
-    reader.onload = async(e)=>{
-
-        const img = new Image();
-
-        img.onload = async function(){
-
-            const canvas = document.createElement('canvas');
-
-            const maxWidth = 1200;
-
-            let width = img.width;
-            let height = img.height;
-
-            if(width > maxWidth){
-                height *= maxWidth / width;
-                width = maxWidth;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-
-            const ctx = canvas.getContext('2d');
-
-            ctx.drawImage(img,0,0,width,height);
-
-            const compressed = canvas.toDataURL('image/jpeg',0.7);
-
-            const base64 = compressed.split(',')[1];
-
-            try {
-
-                const res = await fetch(API_URL, {
-                    method:'POST',
-                    body: JSON.stringify({
-                        action:'uploadKarya',
-                        studentId: currentStudentId,
-                        judul,
-                        fileName: file.name,
-                        fileData: base64
-                    })
-                });
-
-                const json = await res.json();
-
-                if(json.success){
-
-                    document.getElementById('up-judul').value = '';
-                    document.getElementById('up-file').value = '';
-
-                    document.getElementById('preview-upload').classList.add('hidden');
-
-                    await fetchData();
-
-                    manageKarya(currentStudentId);
-                }
-
-            } catch(err){
-                alert('Upload gagal');
-            }
-
-            toggleLoading(false);
-        };
-
-        img.src = e.target.result;
-    };
-
-    reader.readAsDataURL(file);
-}
-
-async function deleteKarya(id){
-
-    if(!confirm('Hapus karya ini?')) return;
-
-    toggleLoading(true);
-
-    try {
-
-        const res = await fetch(API_URL, {
-            method:'POST',
-            body: JSON.stringify({
-                action:'deleteKarya',
-                workId:id
-            })
-        });
-
-        const json = await res.json();
-
-        if(json.success){
-            await fetchData();
-            manageKarya(currentStudentId);
-        }
-
-    } catch(err){
-        alert('Gagal hapus karya');
-    }
-
-    toggleLoading(false);
-}
-
-async function saveStudent(){
-
-    const nama = document.getElementById('st-nama').value.trim();
-    const pass = document.getElementById('st-pass').value.trim();
-    const foto = document.getElementById('st-foto').value.trim();
-
-    if(!nama || !pass){
-        return alert('Nama dan PIN wajib');
-    }
-
-    toggleLoading(true);
-
-    try {
-
-        const res = await fetch(API_URL, {
-            method:'POST',
-            body: JSON.stringify({
-                action:'addStudent',
-                id:'S'+Date.now(),
-                nama,
-                pass,
-                foto
-            })
-        });
-
-        const json = await res.json();
-
-        if(json.success){
-
-            hideModal('modal-student');
-
-            await fetchData();
-
-            renderAdmin();
-        }
-
-    } catch(err){
-        alert('Gagal tambah siswa');
-    }
-
-    toggleLoading(false);
-}
-
-async function editStudent(id){
-
-    const s = appData.students.find(x=>x.id===id);
-
-    const nama = prompt('Nama siswa', s.nama);
-    if(nama===null) return;
-
-    const pass = prompt('PIN', s.pass);
-    if(pass===null) return;
-
-    const foto = prompt('URL Foto', s.foto || '');
-
-    toggleLoading(true);
-
-    try {
-
-        const res = await fetch(API_URL, {
-            method:'POST',
-            body: JSON.stringify({
-                action:'editStudent',
-                id,
-                nama,
-                pass,
-                foto
-            })
-        });
-
-        const json = await res.json();
-
-        if(json.success){
-            await fetchData();
-            renderAdmin();
-        }
-
-    } catch(err){
-        alert('Gagal edit');
-    }
-
-    toggleLoading(false);
-}
-
-async function deleteStudent(id){
-
-    if(!confirm('Hapus siswa dan semua data?')) return;
-
-    toggleLoading(true);
-
-    try {
-
-        const res = await fetch(API_URL, {
-            method:'POST',
-            body: JSON.stringify({
-                action:'deleteStudent',
-                id
-            })
-        });
-
-        const json = await res.json();
-
-        if(json.success){
-            await fetchData();
-            renderAdmin();
-        }
-
-    } catch(err){
-        alert('Gagal hapus siswa');
-    }
-
-    toggleLoading(false);
-}
-
-async function sendComment(workId){
-
-    const input = document.getElementById(`input-chat-${workId}`);
-
-    const text = input.value.trim();
-
-    if(!text) return;
-
-    toggleLoading(true);
-
-    try {
-
-        const res = await fetch(API_URL, {
-            method:'POST',
-            body: JSON.stringify({
-                action:'addComment',
-                workId,
-                studentId: currentStudentId,
-                comment:text
-            })
-        });
-
-        const json = await res.json();
-
-        if(json.success){
-
-            input.value = '';
-
-            await fetchData();
-
-            renderGallery(currentStudentId);
-        }
-
-    } catch(err){
-        alert('Gagal kirim pesan');
-    }
-
-    toggleLoading(false);
-}
-
-async function exportPortfolio(id){
-
-    const s = appData.students.find(x=>x.id===id);
-
-    if(!s) return;
-
-    const { jsPDF } = window.jspdf;
-
-    const doc = new jsPDF();
-
-    let y = 20;
-
-    doc.setFontSize(20);
-    doc.text(`Portofolio ${s.nama}`,20,y);
-
-    y += 15;
-
-    doc.setFontSize(12);
-    doc.text(`Jumlah karya: ${s.karya.length}`,20,y);
-
-    y += 20;
-
-    for(let i=0;i<s.karya.length;i++){
-
-        const k = s.karya[i];
-
-        doc.setFontSize(14);
-        doc.text(`${i+1}. ${k.judul}`,20,y);
-
-        y += 8;
-
-        doc.setFontSize(10);
-        doc.text(`Tanggal: ${new Date(k.date).toLocaleDateString('id-ID')}`,20,y);
-
-        y += 8;
-
-        doc.text(`${k.link}`,20,y);
-
-        y += 18;
-
-        if(y > 260){
-            doc.addPage();
-            y = 20;
-        }
-    }
-
-    doc.save(`Portofolio-${s.nama}.pdf`);
 }
 
 window.onload = ()=>{
